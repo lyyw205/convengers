@@ -1,0 +1,241 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 18px 72px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(20, 20, 20, 0.08);
+}
+
+.headerInner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-family: "Pretendard", "Segoe UI", sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cta {
+  color: inherit;
+}
+
+.main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 50px 0 40px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 48px 64px 64px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 24px;
+  background: #f7f7f7;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.muted {
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.section {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 64px;
+}
+
+.tabsRow {
+  display: grid;
+  gap: 12px;
+}
+
+.panel {
+  background: #f7f7f7;
+  border-radius: 18px;
+  padding: 50px 28px;
+}
+
+.columns {
+  display: flex;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+  flex: 1;
+}
+
+.divider {
+  width: 1px;
+  background: rgba(20, 20, 20, 0.12);
+  align-self: stretch;
+}
+
+.tabsHeading {
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  background: #fff;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.tabActive {
+  background: #101010;
+  color: #fff;
+  border-color: #101010;
+}
+
+.tabContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.tabTitle {
+  font-size: 20px;
+  margin: 0;
+}
+
+.tabDescription {
+  display: grid;
+  gap: 14px;
+  flex: 1;
+}
+
+.tabParagraph {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  flex: 1;
+}
+
+.input,
+.textarea,
+.select {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font: inherit;
+}
+
+.textarea {
+  min-height: 140px;
+}
+
+.button {
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  background: #fff;
+}
+
+.buttonPrimary {
+  background: #101010;
+  color: #fff;
+  border-color: #101010;
+}
+
+@media (max-width: 840px) {
+  .columns {
+    flex-direction: column;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+  }
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 18px 20px;
+  }
+
+  .headerInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .main,
+  .footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

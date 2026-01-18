@@ -1,31 +1,11 @@
 import Link from "next/link";
-import styles from "./public-layout.module.css";
+import styles from "./networking.module.css";
 
-type PublicLayoutProps = {
-  title?: string;
-  subtitle?: string;
-  align?: "left" | "center";
-  titleClassName?: string;
-  subtitleClassName?: string;
-  heroClassName?: string;
-  heroInnerClassName?: string;
-  ctaSlot?: React.ReactNode;
-  topSlot?: React.ReactNode;
+type NetworkingLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function PublicLayout({
-  title,
-  subtitle,
-  align = "left",
-  titleClassName,
-  subtitleClassName,
-  heroClassName,
-  heroInnerClassName,
-  ctaSlot,
-  topSlot,
-  children,
-}: PublicLayoutProps) {
+export default function NetworkingLayout({ children }: NetworkingLayoutProps) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -44,26 +24,6 @@ export default function PublicLayout({
           </nav>
         </div>
       </header>
-
-      {topSlot}
-
-      {(title || subtitle) && (
-        <section
-          className={`${styles.hero} ${
-            align === "center" ? styles.heroCentered : ""
-          } ${heroClassName ?? ""}`}
-        >
-          <div className={`${styles.heroInner} ${heroInnerClassName ?? ""}`}>
-            {title && (
-              <h1 className={titleClassName ?? styles.heroTitle}>{title}</h1>
-            )}
-            {subtitle && (
-              <p className={subtitleClassName ?? styles.heroSubtitle}>{subtitle}</p>
-            )}
-            {ctaSlot && <div className={styles.heroActions}>{ctaSlot}</div>}
-          </div>
-        </section>
-      )}
 
       <main className={styles.main}>{children}</main>
 

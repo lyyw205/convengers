@@ -1,4 +1,4 @@
-import styles from "../../portal.module.css";
+import styles from "../admin.module.css";
 
 export default function AdminFinancePage() {
   return (

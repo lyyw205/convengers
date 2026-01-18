@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./postings.module.css";
 import {
   latestArticles,
@@ -10,6 +10,7 @@ import {
   trendContents,
   trendTabs,
 } from "../../lib/sample-data";
+import { getStoredPostings, seedStoredPostings } from "../../lib/posting-store";
 
 type ContentItem = {
   id: string;
@@ -19,6 +20,7 @@ type ContentItem = {
   date: string;
   category: string;
   href: string;
+  image?: string;
 };
 
 const scrollByAmount = 320;
@@ -104,7 +106,7 @@ function CarouselSection({
           <a key={item.id} className={styles.carouselCard} {...openInNewTab(item.href)}>
             <div
               className={styles.carouselThumb}
-              style={{ backgroundImage: `url(${defaultThumb})` }}
+              style={{ backgroundImage: `url(${item.image ?? defaultThumb})` }}
             />
             <div className={styles.carouselCardBody}>
             <div className={styles.categoryRow}>
@@ -124,6 +126,27 @@ function CarouselSection({
 export default function PostingListPage() {
   const [activeTrendTab, setActiveTrendTab] = useState(trendTabs[0]);
   const [activeSolpTab, setActiveSolpTab] = useState(solpclubTabs[0]);
+  const [storedPostings, setStoredPostings] = useState(() => getStoredPostings());
+
+  useEffect(() => {
+    seedStoredPostings();
+    setStoredPostings(getStoredPostings());
+  }, []);
+
+  const managedPostings = useMemo(
+    () =>
+      storedPostings.map((posting) => ({
+        id: posting.id,
+        title: posting.title,
+        excerpt: posting.excerpt,
+        source: posting.source,
+        date: posting.date,
+        category: posting.category,
+        href: posting.href,
+        image: posting.image,
+      })),
+    [storedPostings]
+  );
 
   const filteredTrends = useMemo(
     () =>
@@ -143,6 +166,13 @@ export default function PostingListPage() {
 
   return (
     <div className={styles.postingsPage}>
+      {managedPostings.length > 0 ? (
+        <CarouselSection
+          title="관리 포스팅"
+          subtitle="관리자가 등록한 최신 게시글"
+          items={managedPostings}
+        />
+      ) : null}
       <section className={`${styles.postingsSection} ${styles.postingsSectionCard}`}>
         <div className={styles.sectionHeaderRow}>
           <div>

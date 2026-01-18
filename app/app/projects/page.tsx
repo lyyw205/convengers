@@ -1,25 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../portal.module.css";
-import { projectStatus } from "../../lib/sample-data";
+import { getStoredProjects, seedStoredProjects } from "../../lib/project-store";
+import { addApplicant } from "../../lib/applicant-store";
+
+type ProjectItem = {
+  id: string;
+  title: string;
+  image?: string;
+  badge?: string;
+  category?: string;
+  budget?: string;
+  duration?: string;
+  skills?: string[];
+  postedAt?: string;
+  dday?: string;
+  summary?: string;
+  goals?: string;
+  targetUsers?: string;
+  features?: string;
+  techStack?: string;
+  roles?: string;
+  workType?: string;
+  location?: string;
+  deadline?: string;
+  contactEmail?: string;
+  thumbnail?: string;
+};
 
 export default function ProjectStatusPage() {
-  const [selected, setSelected] = useState<{
-    title: string;
-    image: string;
-  } | null>(null);
+  const [selected, setSelected] = useState<ProjectItem | null>(null);
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeQuickFilters, setActiveQuickFilters] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [draftCategories, setDraftCategories] = useState<string[]>([]);
+  const [storedProjects, setStoredProjects] = useState(() => getStoredProjects());
 
   const aiCategories = ["전체", "AI Solution", "AI Image/Video", "LLM"];
 
+  useEffect(() => {
+    seedStoredProjects();
+    setStoredProjects(getStoredProjects());
+  }, []);
+
   const filteredProjects =
     selectedCategories.length === 0
-      ? projectStatus.upcoming
-      : projectStatus.upcoming.filter((item) =>
+      ? storedProjects
+      : storedProjects.filter((item) =>
           item.category ? selectedCategories.includes(item.category) : false
         );
 
@@ -55,7 +83,7 @@ export default function ProjectStatusPage() {
     );
   };
 
-  const openModal = (item: { title: string; image: string }) => {
+  const openModal = (item: ProjectItem) => {
     setSelected(item);
   };
 
@@ -210,26 +238,93 @@ export default function ProjectStatusPage() {
 
       {selected && (
         <div className={styles.modalOverlay} onClick={closeModal}>
-          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
+          <div
+            className={`${styles.modal} ${styles.projectModal}`}
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className={styles.modalHeader}>
               <div>
                 <h3 className={styles.sectionTitle}>{selected.title}</h3>
-                <p className={styles.sectionSubtitle}>진행 예정 프로젝트 상세</p>
+                <p className={styles.sectionSubtitle}>프로젝트 상세 정보</p>
               </div>
               <button className={styles.closeButton} type="button" onClick={closeModal}>
                 닫기
               </button>
             </div>
-            <div className={styles.modalBody}>
+            <div className={`${styles.modalBody} ${styles.projectModalBody}`}>
               <div
-                className={styles.modalThumb}
-                style={{ backgroundImage: `url(${selected.image})` }}
+                className={`${styles.modalThumb} ${styles.projectModalThumb}`}
+                style={{
+                  backgroundImage: `url(${
+                    selected.thumbnail || selected.image || "/refs/ref-01.svg"
+                  })`,
+                }}
               />
-              <div className={styles.modalCopy}>
-                <p className={styles.muted}>
-                  프로젝트 개요, 기간, 예산 등의 핵심 정보는 지원 단계에서 안내됩니다.
-                </p>
-                <button className={styles.primaryButton} type="button">
+              <div className={`${styles.modalCopy} ${styles.projectModalCopy}`}>
+                {selected.summary ? (
+                  <p className={styles.projectSummary}>{selected.summary}</p>
+                ) : null}
+                {(() => {
+                  const details: { label: string; value: string }[] = [];
+                  const placeholders = new Set(["", "미정", "기간 미정", "협의"]);
+                  const pushDetail = (label: string, value?: string) => {
+                    if (!value) {
+                      return;
+                    }
+                    const trimmed = value.trim();
+                    if (!trimmed || placeholders.has(trimmed)) {
+                      return;
+                    }
+                    details.push({ label, value: trimmed });
+                  };
+
+                  pushDetail("카테고리", selected.category);
+                  pushDetail("예산", selected.budget);
+                  pushDetail("기간", selected.duration);
+                  pushDetail("마감일", selected.deadline);
+                  pushDetail("근무 형태", selected.workType);
+                  pushDetail("지역", selected.location);
+                  pushDetail("타겟 사용자", selected.targetUsers);
+                  pushDetail("핵심 기능", selected.features);
+                  pushDetail(
+                    "기술 스택",
+                    selected.techStack || selected.skills?.join(", ")
+                  );
+                  pushDetail("모집 포지션", selected.roles);
+                  pushDetail("담당자", selected.contactEmail);
+
+                  if (details.length === 0) {
+                    return null;
+                  }
+
+                  return (
+                    <div className={styles.projectDetailGrid}>
+                      {details.map((item) => (
+                        <div key={item.label} className={styles.projectDetailRow}>
+                          <span className={styles.projectDetailLabel}>{item.label}</span>
+                          <span className={styles.projectDetailValue}>{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+                {selected.goals ? (
+                  <p className={styles.projectGoals}>
+                    <span>목표</span>
+                    <span>{selected.goals}</span>
+                  </p>
+                ) : null}
+                <button
+                  className={styles.projectCta}
+                  type="button"
+                  onClick={() => {
+                    addApplicant({
+                      projectId: selected.id,
+                      name: "Demo Member",
+                      email: "member@convengers.studio",
+                    });
+                  }}
+                >
                   지원하기
                 </button>
               </div>
