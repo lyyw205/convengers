@@ -7,6 +7,9 @@ type PublicLayoutProps = {
   align?: "left" | "center";
   titleClassName?: string;
   subtitleClassName?: string;
+  heroClassName?: string;
+  heroInnerClassName?: string;
+  ctaSlot?: React.ReactNode;
   topSlot?: React.ReactNode;
   children: React.ReactNode;
 };
@@ -17,24 +20,28 @@ export default function PublicLayout({
   align = "left",
   titleClassName,
   subtitleClassName,
+  heroClassName,
+  heroInnerClassName,
+  ctaSlot,
   topSlot,
   children,
 }: PublicLayoutProps) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.brand}>Convengers</div>
-        <nav className={styles.nav}>
-          <Link href="/company">Company</Link>
-          <Link href="/references">References</Link>
-          <Link href="/projects">Projects</Link>
-          <Link href="/contact" className={styles.cta}>
-            Start a Project
+        <div className={styles.headerInner}>
+          <Link href="/main" className={styles.brand}>
+            Convengers
           </Link>
-          <Link href="/app" className={styles.portal}>
-            Member Portal
-          </Link>
-        </nav>
+          <nav className={styles.nav}>
+            <Link href="/company">Company</Link>
+            <Link href="/references">GALLERY</Link>
+            <Link href="/projects">Projects</Link>
+            <Link href="/contact" className={styles.cta}>
+              Contact us
+            </Link>
+          </nav>
+        </div>
       </header>
 
       {topSlot}
@@ -43,14 +50,17 @@ export default function PublicLayout({
         <section
           className={`${styles.hero} ${
             align === "center" ? styles.heroCentered : ""
-          }`}
+          } ${heroClassName ?? ""}`}
         >
-          {title && (
-            <h1 className={titleClassName ?? styles.heroTitle}>{title}</h1>
-          )}
-          {subtitle && (
-            <p className={subtitleClassName ?? styles.heroSubtitle}>{subtitle}</p>
-          )}
+          <div className={`${styles.heroInner} ${heroInnerClassName ?? ""}`}>
+            {title && (
+              <h1 className={titleClassName ?? styles.heroTitle}>{title}</h1>
+            )}
+            {subtitle && (
+              <p className={subtitleClassName ?? styles.heroSubtitle}>{subtitle}</p>
+            )}
+            {ctaSlot && <div className={styles.heroActions}>{ctaSlot}</div>}
+          </div>
         </section>
       )}
 

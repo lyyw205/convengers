@@ -58,7 +58,11 @@ export default function ReferencesPage() {
                 <div className={styles.meta}>
                   {item.year} · {item.stack.join(", ")}
                 </div>
-                <Link className={styles.cardLink} href={`/references/${item.slug}`}>
+                <Link
+                  className={styles.cardLink}
+                  href={`/references/${item.slug}`}
+                  scroll={false}
+                >
                   View reference →
                 </Link>
               </div>

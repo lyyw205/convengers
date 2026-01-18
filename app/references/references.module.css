@@ -4,73 +4,134 @@
   margin-bottom: 64px;
 }
 
-.slider {
-  overflow: visible;
-  width: 100%;
-  padding-bottom: 24px;
-}
-
-.sliderTrack {
+.filterRow {
   display: flex;
-  gap: 30px;
-  width: max-content;
-  animation: slideLeft 40s linear infinite;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
 }
 
-.card {
-  background: #f7f7f7;
-  border-radius: 5px;
-  width: 210px;
-  aspect-ratio: 3 / 4;
-  box-shadow: 0 16px 32px rgba(18, 18, 18, 0.12);
-  display: grid;
-  gap: 0;
-  padding: 0;
+.filterDivider {
+  width: 1px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.15);
 }
 
-.cardGroup {
-  display: grid;
+.searchForm {
+  display: flex;
+  align-items: center;
   gap: 10px;
-  width: 210px;
+}
+
+.searchField {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filterInput {
+  flex: 0 0 240px;
+  width: 240px;
+  padding: 10px 42px 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  font: inherit;
+  background: #ffffff;
+}
+
+.searchButton {
+  position: absolute;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  color: #111111;
+}
+
+.searchButton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.filterButton {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #111111;
+}
+
+.filterButtonActive {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.referenceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.referenceColumn {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+
+.gridCard {
+  display: block;
   color: inherit;
   text-decoration: none;
 }
 
-.cardMedia {
-  padding: 0;
-  overflow: hidden;
-  gap: 0;
+.gridMedia {
+  position: relative;
 }
 
-.cardTitle {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.2;
-  min-height: 48px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.gridImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  background: #f7f7f7;
+  object-fit: cover;
 }
 
-.cardLabel {
-  font-size: 12px;
-  color: #1e5bff;
-  letter-spacing: 0.08em;
+.gridBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.68);
+  color: #ffffff;
+  font-size: 10px;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .pageTitle {
   font-size: 30px;
   text-align: left;
   margin-bottom: 20px;
-}
-
-.cardFooter {
-  padding: 0 0 0 3px;
-  display: grid;
-  gap: 0;
-  background: transparent;
 }
 
 
@@ -117,47 +178,4 @@
 .bannerSubtitle {
   font-size: clamp(16px, 2vw, 22px);
   color: rgba(255, 255, 255, 0.92);
-}
-
-.thumb {
-  position: relative;
-  margin: 0;
-  border-radius: 0;
-  background: linear-gradient(135deg, #0c0c0c, #3a3a3a);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 100%;
-}
-
-.thumb::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 0;
-}
-
-@media (max-width: 1100px) {
-  .sliderTrack {
-    gap: 22px;
-    animation-duration: 50s;
-  }
-}
-
-@media (max-width: 740px) {
-  .sliderTrack {
-    gap: 18px;
-    animation-duration: 60s;
-  }
-}
-
-@keyframes slideLeft {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
 }

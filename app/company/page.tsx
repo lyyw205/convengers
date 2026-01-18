@@ -4,7 +4,7 @@ import styles from "../public.module.css";
 export default function CompanyPage() {
   return (
     <PublicLayout
-      title="Built for clarity, matched for trust."
+      title="솔프클럽에 대한 설명을 엄청나게 자세히 작성한다면 이페이지인데 이건 추후 논의하는게 좋을 것 같습니다."
       subtitle="Convengers curates specialists, verifies delivery, and keeps a public trail of work so every new project starts with proof."
       align="center"
     >

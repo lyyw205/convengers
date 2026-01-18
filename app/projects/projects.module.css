@@ -29,8 +29,9 @@
 
 .cardContent {
   padding: 20px 20px 22px;
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .badge {

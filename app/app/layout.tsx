@@ -11,11 +11,10 @@ export default function PortalLayout({
       <aside className={styles.sidebar}>
         <h2>Convengers</h2>
         <div className={styles.nav}>
-          <Link href="/">Public Site</Link>
           <Link href="/app">Dashboard</Link>
           <Link href="/app/projects">Projects</Link>
           <Link href="/app/postings">Postings</Link>
-          <Link href="/app/applications">My Applications</Link>
+          <Link href="/app/applications">Community</Link>
           <Link href="/app/profile">Profile</Link>
           <Link href="/app/portfolio">Portfolio</Link>
           <Link href="/app/ratings">Ratings</Link>
@@ -27,6 +26,9 @@ export default function PortalLayout({
           <p className={styles.muted}>Member tier: A</p>
           <p className={styles.muted}>Next publish: 4 days</p>
         </div>
+        <Link className={styles.publicCta} href="/main">
+          Public Site
+        </Link>
       </aside>
       <section className={styles.content}>
         <div className={styles.topbar}>
