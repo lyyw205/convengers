@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import PublicLayout from "../components/PublicLayout";
-import styles from "./references.module.css";
+import styles from "./page.module.css";
 import { referenceItems } from "../lib/sample-data";
 
 export default function ReferencesPage() {

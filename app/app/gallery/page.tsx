@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import styles from "../../references/references.module.css";
+import styles from "./page.module.css";
 import { referenceItems } from "../../lib/sample-data";
 
 export default function GalleryPage() {

@@ -1,0 +1,79 @@
+.button {
+  composes: button from "./contact.module.css";
+}
+
+.buttonPrimary {
+  composes: buttonPrimary from "./contact.module.css";
+}
+
+.columns {
+  composes: columns from "./contact.module.css";
+}
+
+.divider {
+  composes: divider from "./contact.module.css";
+}
+
+.form {
+  composes: form from "./contact.module.css";
+}
+
+.input {
+  composes: input from "./contact.module.css";
+}
+
+.leftPanel {
+  composes: leftPanel from "./contact.module.css";
+}
+
+.panel {
+  composes: panel from "./contact.module.css";
+}
+
+.section {
+  composes: section from "./contact.module.css";
+}
+
+.select {
+  composes: select from "./contact.module.css";
+}
+
+.tab {
+  composes: tab from "./contact.module.css";
+}
+
+.tabActive {
+  composes: tabActive from "./contact.module.css";
+}
+
+.tabContent {
+  composes: tabContent from "./contact.module.css";
+}
+
+.tabDescription {
+  composes: tabDescription from "./contact.module.css";
+}
+
+.tabParagraph {
+  composes: tabParagraph from "./contact.module.css";
+}
+
+.tabTitle {
+  composes: tabTitle from "./contact.module.css";
+}
+
+.tabs {
+  composes: tabs from "./contact.module.css";
+}
+
+.tabsHeading {
+  composes: tabsHeading from "./contact.module.css";
+}
+
+.tabsRow {
+  composes: tabsRow from "./contact.module.css";
+}
+
+.textarea {
+  composes: textarea from "./contact.module.css";
+}

@@ -1,0 +1,295 @@
+.hero {
+  composes: hero from "./networking.module.css";
+}
+
+.heroSubtitle {
+  composes: heroSubtitle from "./networking.module.css";
+  margin-top: 5px;
+}
+
+.heroTag {
+  composes: heroTag from "./networking.module.css";
+}
+
+.heroTitle {
+  composes: heroTitle from "./networking.module.css";
+  font-size: clamp(22px, 2.6vw, 32px);
+}
+
+.history {
+  composes: history from "./networking.module.css";
+}
+
+.historyButton {
+  composes: historyButton from "./networking.module.css";
+}
+
+.historyCard {
+  composes: historyCard from "./networking.module.css";
+}
+
+.historyCategory {
+  composes: historyCategory from "./networking.module.css";
+}
+
+.historyControls {
+  composes: historyControls from "./networking.module.css";
+}
+
+.historyDescription {
+  composes: historyDescription from "./networking.module.css";
+}
+
+.historyHeader {
+  composes: historyHeader from "./networking.module.css";
+  margin-top: 30px;
+}
+
+.historyHeading {
+  composes: historyHeading from "./networking.module.css";
+}
+
+.historyMeta {
+  composes: historyMeta from "./networking.module.css";
+}
+
+.historyMetaRight {
+  composes: historyMetaRight from "./networking.module.css";
+}
+
+.historyThumb {
+  composes: historyThumb from "./networking.module.css";
+}
+
+.historyTitle {
+  composes: historyTitle from "./networking.module.css";
+}
+
+.historyTrack {
+  composes: historyTrack from "./networking.module.css";
+}
+
+.news {
+  composes: news from "./networking.module.css";
+}
+
+.newsButton {
+  composes: newsButton from "./networking.module.css";
+}
+
+.newsCard {
+  composes: newsCard from "./networking.module.css";
+}
+
+.newsCardPast {
+  composes: newsCardPast from "./networking.module.css";
+}
+
+.newsCardUpcoming {
+  composes: newsCardUpcoming from "./networking.module.css";
+}
+
+.newsCategories {
+  composes: newsCategories from "./networking.module.css";
+}
+
+.newsCategory {
+  composes: newsCategory from "./networking.module.css";
+}
+
+.newsCategoryControls {
+  composes: newsCategoryControls from "./networking.module.css";
+}
+
+.newsCategoryHeader {
+  composes: newsCategoryHeader from "./networking.module.css";
+}
+
+.newsCategoryTitle {
+  composes: newsCategoryTitle from "./networking.module.css";
+}
+
+.newsDate {
+  composes: newsDate from "./networking.module.css";
+}
+
+.newsMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.newsCategoryTag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #111111;
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  padding: 4px 8px;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.newsDescription {
+  composes: newsDescription from "./networking.module.css";
+}
+
+.newsHeader {
+  composes: newsHeader from "./networking.module.css";
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.newsTitle {
+  composes: newsTitle from "./networking.module.css";
+}
+
+.newsHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.newsTrack {
+  composes: newsTrack from "./networking.module.css";
+}
+
+.sectionSubtitle {
+  composes: sectionSubtitle from "./networking.module.css";
+}
+
+.sectionTag {
+  composes: sectionTag from "./networking.module.css";
+}
+
+.sectionTitle {
+  composes: sectionTitle from "./networking.module.css";
+}
+
+.modal {
+  composes: modal from "./networking.module.css";
+}
+
+.modalActions {
+  composes: modalActions from "./networking.module.css";
+}
+
+.modalBody {
+  composes: modalBody from "./networking.module.css";
+}
+
+.modalClose {
+  composes: modalClose from "./networking.module.css";
+}
+
+.modalCopy {
+  composes: modalCopy from "./networking.module.css";
+}
+
+.modalCta {
+  composes: modalCta from "./networking.module.css";
+}
+
+.modalHeader {
+  composes: modalHeader from "./networking.module.css";
+}
+
+.modalMeta {
+  composes: modalMeta from "./networking.module.css";
+}
+
+.modalOverlay {
+  composes: modalOverlay from "./networking.module.css";
+}
+
+.modalThumb {
+  composes: modalThumb from "./networking.module.css";
+}
+
+.upcoming {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upcomingTrackWrap {
+  position: relative;
+}
+
+.upcomingNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.upcomingPrev {
+  left: -18px;
+}
+
+.upcomingNext {
+  right: -18px;
+}
+
+@media (max-width: 900px) {
+  .upcomingPrev {
+    left: -8px;
+  }
+
+  .upcomingNext {
+    right: -8px;
+  }
+}
+
+.upcomingTrack {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.upcomingTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.upcomingCard {
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 0;
+  flex: 0 0 calc((100% - 12px) / 2);
+  overflow: hidden;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.upcomingThumb {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  background: #f3f3f3;
+}
+
+.upcomingThumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upcomingThumbPlaceholder {
+  background: linear-gradient(135deg, #0f0f0f, #5c5c5c);
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 900px) {
+  .upcomingCard {
+    flex-basis: 100%;
+  }
+}

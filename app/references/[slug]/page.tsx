@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PublicLayout from "../../components/PublicLayout";
-import styles from "../../public.module.css";
+import styles from "./page.module.css";
 import { referenceItems } from "../../lib/sample-data";
 
 type ReferencePageProps = {

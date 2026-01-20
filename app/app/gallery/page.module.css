@@ -1,0 +1,94 @@
+.banner {
+  composes: banner from "../../references/references.module.css";
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.bannerImage {
+  composes: bannerImage from "../../references/references.module.css";
+}
+
+.bannerOverlay {
+  composes: bannerOverlay from "../../references/references.module.css";
+}
+
+.bannerSubtitle {
+  composes: bannerSubtitle from "../../references/references.module.css";
+}
+
+.bannerText {
+  composes: bannerText from "../../references/references.module.css";
+}
+
+.bannerTitle {
+  composes: bannerTitle from "../../references/references.module.css";
+}
+
+.emptyState {
+  composes: emptyState from "../../references/references.module.css";
+}
+
+.filterButton {
+  composes: filterButton from "../../references/references.module.css";
+}
+
+.filterButtonActive {
+  composes: filterButtonActive from "../../references/references.module.css";
+}
+
+.filterButtons {
+  composes: filterButtons from "../../references/references.module.css";
+}
+
+.filterDivider {
+  composes: filterDivider from "../../references/references.module.css";
+}
+
+.filterInput {
+  composes: filterInput from "../../references/references.module.css";
+}
+
+.filterRow {
+  composes: filterRow from "../../references/references.module.css";
+}
+
+.gridBadge {
+  composes: gridBadge from "../../references/references.module.css";
+}
+
+.gridCard {
+  composes: gridCard from "../../references/references.module.css";
+}
+
+.gridImage {
+  composes: gridImage from "../../references/references.module.css";
+}
+
+.gridMedia {
+  composes: gridMedia from "../../references/references.module.css";
+}
+
+.referenceColumn {
+  composes: referenceColumn from "../../references/references.module.css";
+}
+
+.referenceGrid {
+  composes: referenceGrid from "../../references/references.module.css";
+}
+
+.searchButton {
+  composes: searchButton from "../../references/references.module.css";
+}
+
+.searchField {
+  composes: searchField from "../../references/references.module.css";
+}
+
+.searchForm {
+  composes: searchForm from "../../references/references.module.css";
+}
+
+.section {
+  composes: section from "../../references/references.module.css";
+  margin-top: -50px;
+}

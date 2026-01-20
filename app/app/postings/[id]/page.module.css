@@ -1,0 +1,15 @@
+.card {
+  composes: card from "../../portal.module.css";
+}
+
+.list {
+  composes: list from "../../portal.module.css";
+}
+
+.muted {
+  composes: muted from "../../portal.module.css";
+}
+
+.pill {
+  composes: pill from "../../portal.module.css";
+}

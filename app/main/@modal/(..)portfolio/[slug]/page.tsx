@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ModalCloseButton from "../../../../components/ModalCloseButton";
 import ModalRoot from "../../../../components/ModalRoot";
-import styles from "../../../../public.module.css";
+import styles from "./page.module.css";
 import { portfolioItems } from "../../../../lib/sample-data";
 
 type PortfolioModalPageProps = {

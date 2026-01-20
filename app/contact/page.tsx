@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ContactLayout from "./ContactLayout";
-import styles from "./contact.module.css";
+import styles from "./page.module.css";
 
 const tabs = [
   {

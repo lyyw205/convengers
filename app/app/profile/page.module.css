@@ -1,0 +1,165 @@
+.card {
+  composes: card from "../portal.module.css";
+}
+
+.emptyState {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.iconBlue {
+  composes: iconBlue from "../portal.module.css";
+}
+
+.iconGreen {
+  composes: iconGreen from "../portal.module.css";
+}
+
+.iconOrange {
+  composes: iconOrange from "../portal.module.css";
+}
+
+.iconPurple {
+  composes: iconPurple from "../portal.module.css";
+}
+
+.iconTeal {
+  composes: iconTeal from "../portal.module.css";
+}
+
+.muted {
+  composes: muted from "../portal.module.css";
+}
+
+.profilePage {
+  composes: profilePage from "../portal.module.css";
+}
+
+.sectionHeader {
+  composes: sectionHeader from "../portal.module.css";
+}
+
+.sectionSubtitle {
+  composes: sectionSubtitle from "../portal.module.css";
+}
+
+.sectionTitle {
+  composes: sectionTitle from "../portal.module.css";
+}
+
+.summaryCard {
+  composes: summaryCard from "../portal.module.css";
+}
+
+.summaryGrid {
+  composes: summaryGrid from "../portal.module.css";
+}
+
+.summaryIcon {
+  composes: summaryIcon from "../portal.module.css";
+}
+
+.summaryLabel {
+  composes: summaryLabel from "../portal.module.css";
+}
+
+.summaryRow {
+  composes: summaryRow from "../portal.module.css";
+}
+
+.summaryValue {
+  composes: summaryValue from "../portal.module.css";
+}
+
+.list {
+  composes: list from "../portal.module.css";
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag {
+  composes: tag from "../portal.module.css";
+}
+
+.tagRow {
+  composes: tagRow from "../portal.module.css";
+}
+
+.tagGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.tagLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.pill {
+  composes: pill from "../portal.module.css";
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tabActive {
+  composes: tabActive from "../portal.module.css";
+}
+
+.tabButton {
+  composes: tabButton from "../portal.module.css";
+}
+
+.table {
+  composes: table from "../portal.module.css";
+}
+
+.timelineBadge {
+  composes: timelineBadge from "../portal.module.css";
+}
+
+.timelineCard {
+  composes: timelineCard from "../portal.module.css";
+}
+
+.timelineDate {
+  composes: timelineDate from "../portal.module.css";
+}
+
+.timelineLabel {
+  composes: timelineLabel from "../portal.module.css";
+}
+
+.timelineList {
+  composes: timelineList from "../portal.module.css";
+}
+
+.timelineNodeHorizontal {
+  composes: timelineNodeHorizontal from "../portal.module.css";
+}
+
+.timelineSection {
+  composes: timelineSection from "../portal.module.css";
+}
+
+.timelineTabs {
+  composes: timelineTabs from "../portal.module.css";
+}
+
+.timelineTitle {
+  composes: timelineTitle from "../portal.module.css";
+}
+
+.timelineTrackHorizontal {
+  composes: timelineTrackHorizontal from "../portal.module.css";
+}

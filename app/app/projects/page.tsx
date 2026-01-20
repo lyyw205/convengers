@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import styles from "../portal.module.css";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import styles from "./page.module.css";
 import { getStoredProjects, seedStoredProjects } from "../../lib/project-store";
 import { addApplicant } from "../../lib/applicant-store";
+import { referenceItems } from "../../lib/sample-data";
+import { getStoredCategories, seedStoredCategories } from "../../lib/category-store";
+import { getMockUser, hasAllTags } from "../../lib/access-control";
+import { getStoredSectionPermissions } from "../../lib/section-permission-store";
 
 type ProjectItem = {
   id: string;
@@ -36,6 +41,13 @@ export default function ProjectStatusPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [draftCategories, setDraftCategories] = useState<string[]>([]);
   const [storedProjects, setStoredProjects] = useState(() => getStoredProjects());
+  const [projectCategories, setProjectCategories] = useState<string[]>(["전체"]);
+  const [activePublicCategory, setActivePublicCategory] = useState("전체");
+  const [publicPage, setPublicPage] = useState(1);
+  const publicPageSize = 9;
+  const [sectionPermissions, setSectionPermissions] = useState(
+    () => getStoredSectionPermissions()
+  );
 
   const aiCategories = ["전체", "AI Solution", "AI Image/Video", "LLM"];
 
@@ -43,6 +55,27 @@ export default function ProjectStatusPage() {
     seedStoredProjects();
     setStoredProjects(getStoredProjects());
   }, []);
+  useEffect(() => {
+    seedStoredCategories();
+    const stored = getStoredCategories()
+      .filter((category) => category.group === "projects")
+      .map((category) => category.name);
+    setProjectCategories(["전체", ...stored]);
+  }, []);
+  useEffect(() => {
+    const refresh = () => setSectionPermissions(getStoredSectionPermissions());
+    window.addEventListener("section-permissions-updated", refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener("section-permissions-updated", refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
+  useEffect(() => {
+    if (!projectCategories.includes(activePublicCategory)) {
+      setActivePublicCategory("전체");
+    }
+  }, [projectCategories, activePublicCategory]);
 
   const filteredProjects =
     selectedCategories.length === 0
@@ -50,6 +83,33 @@ export default function ProjectStatusPage() {
       : storedProjects.filter((item) =>
           item.category ? selectedCategories.includes(item.category) : false
         );
+  const filteredReferences = useMemo(
+    () =>
+      activePublicCategory === "전체"
+        ? referenceItems
+        : referenceItems.filter((item) => item.category === activePublicCategory),
+    [activePublicCategory]
+  );
+  const totalPublicPages = Math.max(
+    1,
+    Math.ceil(filteredReferences.length / publicPageSize)
+  );
+  const pagedReferences = useMemo(() => {
+    const start = (publicPage - 1) * publicPageSize;
+    return filteredReferences.slice(start, start + publicPageSize);
+  }, [filteredReferences, publicPage, publicPageSize]);
+
+  useEffect(() => {
+    setPublicPage(1);
+  }, [activePublicCategory]);
+
+  const mockUser = getMockUser();
+  const sectionMap = useMemo(
+    () => new Map(sectionPermissions.map((item) => [item.id, item.requiredTags])),
+    [sectionPermissions]
+  );
+  const canViewSection = (id: string) =>
+    hasAllTags(mockUser.tags, sectionMap.get(id) ?? []);
 
   const toggleCategory = (category: string) => {
     setDraftCategories((prev) => {
@@ -93,7 +153,8 @@ export default function ProjectStatusPage() {
 
   return (
     <div className={styles.statusPage}>
-      <section className={styles.statusSection}>
+      {canViewSection("/app/projects:recruiting") && (
+        <section className={styles.statusSection}>
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderText}>
             <h2 className={styles.sectionTitle}>모집중 프로젝트</h2>
@@ -234,7 +295,109 @@ export default function ProjectStatusPage() {
             <p className={styles.muted}>현재 모집중인 프로젝트가 없습니다.</p>
           )}
         </div>
-      </section>
+        </section>
+      )}
+
+      {canViewSection("/app/projects:portfolio") && (
+        <section className={styles.publicSection}>
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionHeaderText}>
+            <h2 className={styles.sectionTitle}>Project Portfolio</h2>
+            <p className={styles.sectionSubtitle}>
+              컨벤저스에서 진행한 프로젝트입니다
+            </p>
+          </div>
+        </div>
+        <div className={styles.sectionDivider} />
+        <div className={styles.publicFilterBar}>
+          <div className={styles.publicFilterRow}>
+          {projectCategories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                className={`${styles.publicFilterButton} ${
+                  activePublicCategory === category ? styles.publicFilterActive : ""
+                }`}
+                onClick={() => setActivePublicCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <div className={styles.searchWrap}>
+            <span className={styles.searchIcon} aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
+                <path d="M16.5 16.5L21 21" fill="none" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </span>
+            <input
+              className={styles.searchInput}
+              type="search"
+              placeholder="프로젝트 검색"
+              aria-label="프로젝트 검색"
+            />
+          </div>
+        </div>
+        <div className={styles.publicGrid}>
+          {pagedReferences.map((item) => (
+            <article key={item.slug} className={`${styles.publicCard} ${styles.publicCardMedia}`}>
+              <div
+                className={styles.publicThumb}
+                style={item.image ? { backgroundImage: `url(${item.image})` } : undefined}
+              >
+                <span className={styles.publicThumbText}>{item.title}</span>
+              </div>
+              <div className={styles.publicCardContent}>
+                <div className={styles.publicBadge}>{item.category}</div>
+                <h3 className={styles.publicCardTitle}>{item.title}</h3>
+                <p className={styles.publicLead}>{item.summary}</p>
+                <div className={styles.publicMeta}>
+                  {item.year} · {item.stack.join(", ")}
+                </div>
+                <Link
+                  className={styles.publicCardLink}
+                  href={`/references/${item.slug}`}
+                  scroll={false}
+                >
+                  View reference →
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+        {filteredReferences.length === 0 && (
+          <p className={styles.publicEmptyState}>
+            해당 카테고리의 레퍼런스가 없습니다.
+          </p>
+        )}
+        {filteredReferences.length > publicPageSize && (
+          <div className={styles.publicPagination}>
+            <button
+              type="button"
+              className={styles.publicPageButton}
+              onClick={() => setPublicPage((prev) => Math.max(1, prev - 1))}
+              disabled={publicPage === 1}
+            >
+              이전
+            </button>
+          <div className={styles.publicPageInfo}>
+            {publicPage} / {totalPublicPages}
+          </div>
+          <button
+            type="button"
+              className={styles.publicPageButton}
+              onClick={() =>
+                setPublicPage((prev) => Math.min(totalPublicPages, prev + 1))
+              }
+              disabled={publicPage === totalPublicPages}
+            >
+            다음
+          </button>
+        </div>
+        )}
+        </section>
+      )}
 
       {selected && (
         <div className={styles.modalOverlay} onClick={closeModal}>

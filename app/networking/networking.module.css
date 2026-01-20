@@ -52,7 +52,7 @@
 
 .hero {
   display: grid;
-  gap: 14px;
+  gap: 0;
   margin-bottom: 36px;
 }
 
@@ -194,7 +194,7 @@
 
 .news {
   display: grid;
-  gap: 26px;
+  gap: 20px;
 }
 
 .newsHeader {

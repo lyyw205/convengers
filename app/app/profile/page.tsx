@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
-import styles from "../portal.module.css";
+import styles from "./page.module.css";
 import { profileTimelines } from "../../lib/sample-data";
 
 export default function ProfilePage() {
@@ -14,6 +15,14 @@ export default function ProfilePage() {
     () => profileTimelines.filter((item) => item.status === activeTab),
     [activeTab]
   );
+  const skills = ["AI Agent", "AI Coding", "LLM", "RAG", "Product Strategy"];
+  const categories = ["AI Solution", "AI Image/Video", "Web Development"];
+  const portfolios = [
+    { title: "AI 고객지원 포털 리뉴얼", href: "/references/ai-support-portal" },
+    { title: "커머스 추천 엔진 대시보드", href: "/references/commerce-reco" },
+    { title: "AI 브랜딩 자동화 웹앱", href: "/references/ai-branding" },
+  ];
+  const verificationBadges = ["검증 완료", "리뷰 12", "ADMIN", "PROJECT_VIEW"];
 
   return (
     <div className={styles.profilePage}>
@@ -38,6 +47,67 @@ export default function ProfilePage() {
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h3 className={styles.sectionTitle}>스킬/카테고리</h3>
+            <p className={styles.sectionSubtitle}>주요 전문 영역과 선호 카테고리입니다.</p>
+          </div>
+        </div>
+        <div className={styles.tagGroup}>
+          <div className={styles.tagLabel}>스킬</div>
+          <div className={styles.tagRow}>
+            {skills.map((skill) => (
+              <span key={skill} className={styles.tag}>
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className={styles.tagGroup}>
+          <div className={styles.tagLabel}>카테고리</div>
+          <div className={styles.tagRow}>
+            {categories.map((category) => (
+              <span key={category} className={styles.tag}>
+                {category}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h3 className={styles.sectionTitle}>대표 포트폴리오</h3>
+            <p className={styles.sectionSubtitle}>매칭에 활용되는 주요 작업입니다.</p>
+          </div>
+        </div>
+        <ul className={styles.list}>
+          {portfolios.map((item) => (
+            <li key={item.href} className={styles.listItem}>
+              <Link href={item.href}>{item.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h3 className={styles.sectionTitle}>검증/권한</h3>
+            <p className={styles.sectionSubtitle}>현재 상태와 접근 권한입니다.</p>
+          </div>
+        </div>
+        <div className={styles.pillRow}>
+          {verificationBadges.map((badge) => (
+            <span key={badge} className={styles.pill}>
+              {badge}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className={styles.summaryGrid}>

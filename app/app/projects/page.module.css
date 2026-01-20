@@ -1,0 +1,360 @@
+.closeButton {
+  composes: closeButton from "../portal.module.css";
+}
+
+.dot {
+  composes: dot from "../portal.module.css";
+}
+
+.filterActions {
+  composes: filterActions from "../portal.module.css";
+}
+
+.filterActionsRight {
+  composes: filterActionsRight from "../portal.module.css";
+}
+
+.filterApplyButton {
+  composes: filterApplyButton from "../portal.module.css";
+}
+
+.filterBadge {
+  composes: filterBadge from "../portal.module.css";
+}
+
+.filterButton {
+  composes: filterButton from "../portal.module.css";
+}
+
+.filterButtonActive {
+  composes: filterButtonActive from "../portal.module.css";
+}
+
+.filterButtonActiveBlue {
+  composes: filterButtonActiveBlue from "../portal.module.css";
+}
+
+.filterButtonWrap {
+  composes: filterButtonWrap from "../portal.module.css";
+}
+
+.filterButtons {
+  composes: filterButtons from "../portal.module.css";
+}
+
+.filterList {
+  composes: filterList from "../portal.module.css";
+}
+
+.filterModal {
+  composes: filterModal from "../portal.module.css";
+}
+
+.filterOption {
+  composes: filterOption from "../portal.module.css";
+}
+
+.filterOptionActive {
+  composes: filterOptionActive from "../portal.module.css";
+}
+
+.filterReset {
+  composes: filterReset from "../portal.module.css";
+}
+
+.filterResetIcon {
+  composes: filterResetIcon from "../portal.module.css";
+}
+
+.filterRow {
+  composes: filterRow from "../portal.module.css";
+}
+
+.filterSelectedClose {
+  composes: filterSelectedClose from "../portal.module.css";
+}
+
+.filterSelectedItem {
+  composes: filterSelectedItem from "../portal.module.css";
+}
+
+.modal {
+  composes: modal from "../portal.module.css";
+}
+
+.modalBody {
+  composes: modalBody from "../portal.module.css";
+}
+
+.modalCopy {
+  composes: modalCopy from "../portal.module.css";
+}
+
+.modalHeader {
+  composes: modalHeader from "../portal.module.css";
+}
+
+.modalOverlay {
+  composes: modalOverlay from "../portal.module.css";
+}
+
+.modalThumb {
+  composes: modalThumb from "../portal.module.css";
+}
+
+.muted {
+  composes: muted from "../portal.module.css";
+}
+
+.primaryButton {
+  composes: primaryButton from "../portal.module.css";
+}
+
+.projectCta {
+  composes: projectCta from "../portal.module.css";
+}
+
+.projectDetailGrid {
+  composes: projectDetailGrid from "../portal.module.css";
+}
+
+.projectDetailLabel {
+  composes: projectDetailLabel from "../portal.module.css";
+}
+
+.projectDetailRow {
+  composes: projectDetailRow from "../portal.module.css";
+}
+
+.projectDetailValue {
+  composes: projectDetailValue from "../portal.module.css";
+}
+
+.projectGoals {
+  composes: projectGoals from "../portal.module.css";
+}
+
+.projectModal {
+  composes: projectModal from "../portal.module.css";
+}
+
+.projectModalBody {
+  composes: projectModalBody from "../portal.module.css";
+}
+
+.projectModalCopy {
+  composes: projectModalCopy from "../portal.module.css";
+}
+
+.projectModalThumb {
+  composes: projectModalThumb from "../portal.module.css";
+}
+
+.projectSummary {
+  composes: projectSummary from "../portal.module.css";
+}
+
+.searchIcon {
+  composes: searchIcon from "../portal.module.css";
+}
+
+.searchInput {
+  composes: searchInput from "../portal.module.css";
+}
+
+.searchWrap {
+  composes: searchWrap from "../portal.module.css";
+}
+
+.sectionDivider {
+  composes: sectionDivider from "../portal.module.css";
+}
+
+.sectionHeader {
+  composes: sectionHeader from "../portal.module.css";
+}
+
+.sectionHeaderText {
+  composes: sectionHeaderText from "../portal.module.css";
+}
+
+.sectionSubtitle {
+  composes: sectionSubtitle from "../portal.module.css";
+}
+
+.sectionTitle {
+  composes: sectionTitle from "../portal.module.css";
+}
+
+.selectedFilters {
+  composes: selectedFilters from "../portal.module.css";
+}
+
+.statusBadge {
+  composes: statusBadge from "../portal.module.css";
+}
+
+.statusBadgeRow {
+  composes: statusBadgeRow from "../portal.module.css";
+}
+
+.statusBody {
+  composes: statusBody from "../portal.module.css";
+}
+
+.statusBudget {
+  composes: statusBudget from "../portal.module.css";
+}
+
+.statusCategory {
+  composes: statusCategory from "../portal.module.css";
+}
+
+.statusDate {
+  composes: statusDate from "../portal.module.css";
+}
+
+.statusDday {
+  composes: statusDday from "../portal.module.css";
+}
+
+.statusList {
+  composes: statusList from "../portal.module.css";
+}
+
+.statusMetaRow {
+  composes: statusMetaRow from "../portal.module.css";
+}
+
+.statusPage {
+  composes: statusPage from "../portal.module.css";
+}
+
+.statusRow {
+  composes: statusRow from "../portal.module.css";
+}
+
+.statusSection {
+  composes: statusSection from "../portal.module.css";
+}
+
+.statusSkill {
+  composes: statusSkill from "../portal.module.css";
+}
+
+.statusSkills {
+  composes: statusSkills from "../portal.module.css";
+}
+
+.statusSplit {
+  composes: statusSplit from "../portal.module.css";
+}
+
+.statusTitleButton {
+  composes: statusTitleButton from "../portal.module.css";
+}
+
+.publicSection {
+  composes: section from "../../public.module.css";
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 60px;
+}
+
+.publicFilterRow {
+  composes: filterRow from "../../public.module.css";
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+.publicFilterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 20px 0 30px;
+}
+
+.publicFilterButton {
+  composes: filterButton from "../../public.module.css";
+}
+
+.publicFilterActive {
+  composes: filterActive from "../../public.module.css";
+}
+
+.publicGrid {
+  composes: grid from "../../public.module.css";
+}
+
+.publicCard {
+  composes: card from "../../public.module.css";
+}
+
+.publicCardMedia {
+  composes: cardMedia from "../../public.module.css";
+}
+
+.publicCardContent {
+  composes: cardContent from "../../public.module.css";
+}
+
+.publicBadge {
+  composes: badge from "../../public.module.css";
+}
+
+.publicCardTitle {
+  composes: cardTitle from "../../public.module.css";
+}
+
+.publicLead {
+  composes: lead from "../../public.module.css";
+}
+
+.publicMeta {
+  composes: meta from "../../public.module.css";
+}
+
+.publicCardLink {
+  composes: cardLink from "../../public.module.css";
+}
+
+.publicThumb {
+  composes: thumb from "../../public.module.css";
+}
+
+.publicThumbText {
+  composes: thumbText from "../../public.module.css";
+}
+
+.publicEmptyState {
+  composes: emptyState from "../../public.module.css";
+}
+
+.publicPagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.publicPageButton {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.publicPageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.publicPageInfo {
+  font-size: 14px;
+  color: var(--muted);
+}

@@ -8,6 +8,7 @@ import {
   type PagePermission,
   type PagePermissionConfig,
 } from "../lib/page-permission-store";
+import { getMockUser, hasAllTags } from "../lib/access-control";
 
 type NavItem = {
   href: string;
@@ -15,32 +16,16 @@ type NavItem = {
   requiredTags?: string[];
 };
 
-  const mockUser = {
-    isAuthenticated: true,
-    tags: [
-      "PROJECT_VIEW",
-      "POSTING_VIEW",
-      "NETWORKINGS_VIEW",
-      "COMMUNITY_VIEW",
-      "PROFILE_VIEW",
-      "ADMIN",
-    ],
-  };
-
 const navItems: NavItem[] = [
-  { href: "/app/projects", label: "Projects" },
   { href: "/app/gallery", label: "Gallery" },
-  { href: "/app/postings", label: "Postings" },
+  { href: "/app/projects", label: "Projects" },
   { href: "/app/networkings", label: "Networkings" },
-  { href: "/app/applications", label: "Community" },
   { href: "/app/profile", label: "Profile" },
   { href: "/app/admin", label: "Admin", requiredTags: ["ADMIN"] },
 ];
 
-const hasAllTags = (userTags: string[], requiredTags: string[] = []) =>
-  requiredTags.every((tag) => userTags.includes(tag));
-
 export default function AppHeader() {
+  const mockUser = getMockUser();
   const [permissions, setPermissions] = useState<PagePermissionConfig[]>([]);
 
   useEffect(() => {

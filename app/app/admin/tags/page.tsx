@@ -1,4 +1,4 @@
-import styles from "../admin.module.css";
+import styles from "./page.module.css";
 
 const mockTags = [
   { name: "PROJECT_VIEW", description: "Access to project dashboards", usage: 12 },

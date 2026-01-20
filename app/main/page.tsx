@@ -1,7 +1,6 @@
 import Link from "next/link";
 import PublicLayout from "../components/PublicLayout";
-import styles from "../public.module.css";
-import mainStyles from "./main.module.css";
+import styles from "./page.module.css";
 import { portfolioItems, referenceItems } from "../lib/sample-data";
 import ReferenceSlider from "../components/ReferenceSlider";
 
@@ -31,17 +30,17 @@ export default function Home() {
         </>
       }
       align="left"
-      titleClassName={mainStyles.heroTitle}
-      heroClassName={mainStyles.hero}
-      heroInnerClassName={mainStyles.heroInner}
+      titleClassName={styles.heroTitle}
+      heroClassName={styles.hero}
+      heroInnerClassName={styles.heroInner}
       ctaSlot={
-        <div className={mainStyles.heroCtaNote}>버튼형, 강의나 커뮤니티 링크 등</div>
+        <div className={styles.heroCtaNote}>버튼형, 강의나 커뮤니티 링크 등</div>
       }
     >
-      <section className={mainStyles.blankSection} />
+      <section className={styles.blankSection} />
 
-      <section className={mainStyles.section}>
-        <div className={`${styles.card} ${mainStyles.card}`}>
+      <section className={styles.section}>
+        <div className={`${styles.card} ${styles.cardDense}`}>
           <div className={styles.badge}>What is SOLPCLUB?</div>
           <h2 className={styles.headline}>
             솔프클럽은 솔로프리너들을 위한 커뮤니티입니다. (임시텍스트)
@@ -64,11 +63,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={mainStyles.blankSection} />
+      <section className={styles.blankSection} />
 
-      <section className={mainStyles.section}>
-        <h2 className={mainStyles.portfolioTitle}>포트폴리오</h2>
-        <p className={mainStyles.portfolioDesc}>
+      <section className={styles.section}>
+        <h2 className={styles.portfolioTitle}>포트폴리오</h2>
+        <p className={styles.portfolioDesc}>
           이 섹션은 포트폴리오 페이지랑 연동되는 페이지이며, 포트폴리오 클릭 시
           해당 포트폴리오 상세 페이지를 모달로 띄울 예정입니다.
         </p>
@@ -76,7 +75,7 @@ export default function Home() {
           {portfolioItems.slice(0, 3).map((item) => (
             <article
               key={item.slug}
-              className={`${styles.card} ${mainStyles.cardNoPadding} ${styles.cardMedia}`}
+              className={`${styles.card} ${styles.cardNoPadding} ${styles.cardMedia}`}
             >
               <div
                 className={styles.thumb}
@@ -98,32 +97,32 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={mainStyles.blankSection} />
+      <section className={styles.blankSection} />
 
-      <section className={mainStyles.section}>
-        <h2 className={mainStyles.portfolioTitle}>레퍼런스</h2>
-        <p className={mainStyles.portfolioDesc}>
+      <section className={styles.section}>
+        <h2 className={styles.portfolioTitle}>레퍼런스</h2>
+        <p className={styles.portfolioDesc}>
           이 섹션은 레퍼런스 페이지랑 연동되는 섹션이며, 레퍼런스 클릭 시
           레퍼런스 상세 페이지를 모달로 띄울 예정입니다.
         </p>
-        <div className={mainStyles.referenceWrap}>
+        <div className={styles.referenceWrap}>
           <ReferenceSlider items={referenceItems} />
         </div>
       </section>
 
-      <section className={mainStyles.blankSection} />
+      <section className={styles.blankSection} />
 
-      <section className={mainStyles.section}>
-        <h2 className={mainStyles.partnersTitle}>PARTNERS</h2>
-        <p className={mainStyles.partnersDesc}>
+      <section className={styles.section}>
+        <h2 className={styles.partnersTitle}>PARTNERS</h2>
+        <p className={styles.partnersDesc}>
           파트너사 로고를 분산해서 나열한 이미지로 대체할 예정입니다. 이미지
           영역이라고 생각하시면 됩니다.
         </p>
-        <div className={mainStyles.logoField}>
+        <div className={styles.logoField}>
           {partnerLogos.map((logo, index) => (
             <div
               key={`${logo.src}-${index}`}
-              className={mainStyles.logoFloating}
+              className={styles.logoFloating}
               style={
                 {
                   "--x": logo.x,
@@ -133,13 +132,13 @@ export default function Home() {
                 } as React.CSSProperties
               }
             >
-              <img className={mainStyles.logoImage} src={logo.src} alt="Partner logo" />
+              <img className={styles.logoImage} src={logo.src} alt="Partner logo" />
             </div>
           ))}
         </div>
       </section>
 
-      <section className={mainStyles.blankSection} />
+      <section className={styles.blankSection} />
     </PublicLayout>
   );
 }

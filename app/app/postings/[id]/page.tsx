@@ -1,4 +1,4 @@
-import styles from "../../portal.module.css";
+import styles from "./page.module.css";
 import { postingItems } from "../../../lib/sample-data";
 
 type PostingDetailProps = {

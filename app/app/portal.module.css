@@ -29,12 +29,12 @@
 }
 
 .nav a {
-  padding: 8px 10px;
-  border-radius: 10px;
+  padding: 0;
+  border-radius: 0;
 }
 
 .nav a:hover {
-  background: var(--accent-soft);
+  background: transparent;
 }
 
 .content {
@@ -1260,7 +1260,7 @@
 }
 
 .footerInner {
-  max-width: 1200px;
+  max-width: var(--content-max);
   margin: 0 auto;
   width: 100%;
   display: grid;
@@ -1271,6 +1271,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
+}
+
+.footer .label {
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.footer .muted {
+  margin-top: 8px;
 }
 
 .authCard {

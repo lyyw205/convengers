@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import NetworkingLayout from "./NetworkingLayout";
-import styles from "./networking.module.css";
+import styles from "./page.module.css";
 
 const historyItems = [
   {
@@ -74,6 +74,7 @@ const newsCategories = [
         description:
           "지역별 파트너가 모여 협업 사례를 나눕니다. 현지 파트너십을 연결합니다.",
         status: "upcoming",
+        image: "/networking/네트워킹예시.png",
       },
       {
         title: "SOLPCLUB 리셉션",
@@ -205,8 +206,70 @@ const sortByDateDesc = (items: typeof newsCategories[number]["items"]) => {
 };
 
 export default function NetworkingPage() {
+  const upcomingRef = useRef<HTMLDivElement | null>(null);
   const historyRef = useRef<HTMLDivElement | null>(null);
   const newsRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [selected, setSelected] = useState<{
+    title: string;
+    date: string;
+    description: string;
+    category: string;
+    image?: string;
+  } | null>(null);
+
+  const upcomingItems = useMemo(
+    () =>
+      newsCategories.flatMap((category) =>
+        category.items
+          .filter((item) => item.status === "upcoming")
+          .map((item) => ({
+            ...item,
+            category: category.title,
+          }))
+      ),
+    []
+  );
+  const upcomingBaseItems = useMemo(() => upcomingItems.slice(0, 5), [upcomingItems]);
+  const primaryNewsId = newsCategories[0]?.id;
+
+  const handleUpcomingScroll = (direction: "prev" | "next") => {
+    const container = upcomingRef.current;
+    if (!container) {
+      return;
+    }
+    const firstCard = container.querySelector<HTMLElement>(`.${styles.upcomingCard}`);
+    const gapValue =
+      parseFloat(window.getComputedStyle(container).columnGap) ||
+      parseFloat(window.getComputedStyle(container).gap) ||
+      0;
+    const cardWidth = firstCard?.offsetWidth ?? container.clientWidth / 2;
+    const offset = cardWidth + gapValue;
+    container.scrollBy({
+      left: direction === "next" ? offset : -offset,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const container = upcomingRef.current;
+    if (!container || upcomingBaseItems.length === 0) {
+      return;
+    }
+    const intervalId = window.setInterval(() => {
+      const firstCard = container.querySelector<HTMLElement>(`.${styles.upcomingCard}`);
+      const gapValue =
+        parseFloat(window.getComputedStyle(container).columnGap) ||
+        parseFloat(window.getComputedStyle(container).gap) ||
+        0;
+      const cardWidth = firstCard?.offsetWidth ?? container.clientWidth / 2;
+      const offset = cardWidth + gapValue;
+      container.scrollBy({ left: offset, behavior: "smooth" });
+    }, 5000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [upcomingBaseItems.length]);
 
   const handleHistoryScroll = (direction: "prev" | "next") => {
     const container = historyRef.current;
@@ -241,14 +304,52 @@ export default function NetworkingPage() {
   return (
     <NetworkingLayout>
       <section className={styles.hero}>
-        <div className={styles.heroTag}>SOLPCLUB NETWORKING</div>
-        <h1 className={styles.heroTitle}>History</h1>
+        <h1 className={styles.heroTitle}>Upcomings</h1>
         <p className={styles.heroSubtitle}>
-          지금까지 SOLPCLUB이 함께해 온 모임과 연결의 기록입니다.
+          앞으로 다가올 네트워킹에 함께해보세요.
         </p>
       </section>
 
       <section className={styles.history}>
+        <div className={styles.upcoming}>
+          <div className={styles.upcomingTrackWrap}>
+            <button
+              type="button"
+              className={`${styles.historyButton} ${styles.upcomingNav} ${styles.upcomingPrev}`}
+              aria-label="이전 업커밍 네트워킹"
+              onClick={() => handleUpcomingScroll("prev")}
+            >
+              &lt;
+            </button>
+            <div className={styles.upcomingTrack} ref={upcomingRef}>
+            {upcomingBaseItems.map((item) => (
+              <button
+                key={`${item.category}-${item.title}`}
+                type="button"
+                className={styles.upcomingCard}
+                aria-label={`${item.title} 상세 보기`}
+                onClick={() => setSelected(item)}
+              >
+                <div
+                  className={`${styles.upcomingThumb} ${
+                    item.image ? "" : styles.upcomingThumbPlaceholder
+                  }`}
+                >
+                  {item.image ? <img src={item.image} alt={item.title} /> : null}
+                </div>
+              </button>
+            ))}
+            </div>
+            <button
+              type="button"
+              className={`${styles.historyButton} ${styles.upcomingNav} ${styles.upcomingNext}`}
+              aria-label="다음 업커밍 네트워킹"
+              onClick={() => handleUpcomingScroll("next")}
+            >
+              &gt;
+            </button>
+          </div>
+        </div>
         <div className={styles.historyHeader}>
           <h2 className={styles.historyHeading}>Recent Networkings</h2>
           <div className={styles.historyControls}>
@@ -293,37 +394,34 @@ export default function NetworkingPage() {
 
       <section className={styles.news}>
         <div className={styles.newsHeader}>
-          <div>
-            <div className={styles.sectionTag}>Networking Updates</div>
-            <h2 className={styles.sectionTitle}>Upcoming & News</h2>
-            <p className={styles.sectionSubtitle}>
-              다가오는 네트워킹 일정과 공지, 협업 소식을 전합니다.
-            </p>
+          <div className={styles.newsHeaderText}>
+            <h2 className={styles.sectionTitle}>News</h2>
+            <p className={styles.sectionSubtitle}>SOLPCLUB 및 AI 관련 소식입니다.</p>
+          </div>
+          <div className={styles.historyControls}>
+            <button
+              type="button"
+              className={styles.historyButton}
+              aria-label="이전 소식"
+              onClick={() => primaryNewsId && handleNewsScroll(primaryNewsId, "prev")}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              className={styles.historyButton}
+              aria-label="다음 소식"
+              onClick={() => primaryNewsId && handleNewsScroll(primaryNewsId, "next")}
+            >
+              →
+            </button>
           </div>
         </div>
         <div className={styles.newsCategories}>
-          {newsCategories.map((category) => (
+          {newsCategories.slice(0, 1).map((category) => (
             <section key={category.id} className={styles.newsCategory}>
               <div className={styles.newsCategoryHeader}>
-                <h3 className={styles.newsCategoryTitle}>{category.title}</h3>
-                <div className={styles.newsCategoryControls}>
-                  <button
-                    type="button"
-                    className={styles.newsButton}
-                    aria-label={`${category.title} 이전 소식`}
-                    onClick={() => handleNewsScroll(category.id, "prev")}
-                  >
-                    ←
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.newsButton}
-                    aria-label={`${category.title} 다음 소식`}
-                    onClick={() => handleNewsScroll(category.id, "next")}
-                  >
-                    →
-                  </button>
-                </div>
+                <div />
               </div>
               <div
                 className={styles.newsTrack}
@@ -338,7 +436,10 @@ export default function NetworkingPage() {
                       item.status === "past" ? styles.newsCardPast : styles.newsCardUpcoming
                     }`}
                   >
-                    <div className={styles.newsDate}>{item.date}</div>
+                    <div className={styles.newsMetaRow}>
+                      <div className={styles.newsDate}>{item.date}</div>
+                      <span className={styles.newsCategoryTag}>{category.title}</span>
+                    </div>
                     <h3 className={styles.newsTitle}>{item.title}</h3>
                     <p className={styles.newsDescription}>{item.description}</p>
                   </article>
@@ -348,6 +449,38 @@ export default function NetworkingPage() {
           ))}
         </div>
       </section>
+
+      {selected ? (
+        <div className={styles.modalOverlay} onClick={() => setSelected(null)}>
+          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div>
+                <h3>{selected.title}</h3>
+                <p className={styles.modalMeta}>
+                  {selected.category} · {selected.date}
+                </p>
+              </div>
+              <button className={styles.modalClose} type="button" onClick={() => setSelected(null)}>
+                닫기
+              </button>
+            </div>
+            <div className={styles.modalBody}>
+              <div
+                className={styles.modalThumb}
+                style={{
+                  backgroundImage: selected.image ? `url(${selected.image})` : undefined,
+                }}
+              />
+              <p className={styles.modalCopy}>{selected.description}</p>
+            </div>
+            <div className={styles.modalActions}>
+              <button className={styles.modalCta} type="button">
+                참여 신청
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </NetworkingLayout>
   );
 }

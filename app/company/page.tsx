@@ -98,42 +98,6 @@ export default function CompanyPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.card}>
-          <div className={styles.badge}>How we work</div>
-          <ul className={styles.list}>
-            <li>Intake and scope workshops to lock priorities.</li>
-            <li>Partner matching based on verified outcomes.</li>
-            <li>Weekly proof updates and post-launch reviews.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.grid}>
-          <div className={styles.card}>
-            <div className={styles.badge}>Capability</div>
-            <h3>Product strategy</h3>
-            <p className={styles.lead}>
-              Roadmaps, research synthesis, and scoped delivery plans.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <div className={styles.badge}>Capability</div>
-            <h3>Design + Engineering</h3>
-            <p className={styles.lead}>
-              Cross-functional pods built for speed and consistency.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <div className={styles.badge}>Capability</div>
-            <h3>Growth &amp; ops</h3>
-            <p className={styles.lead}>
-              Activation, lifecycle improvements, and operational tooling.
-            </p>
-          </div>
-        </div>
-      </section>
     </PublicLayout>
   );
 }

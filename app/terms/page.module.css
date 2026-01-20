@@ -1,0 +1,15 @@
+.badge {
+  composes: badge from "../public.module.css";
+}
+
+.card {
+  composes: card from "../public.module.css";
+}
+
+.list {
+  composes: list from "../public.module.css";
+}
+
+.section {
+  composes: section from "../public.module.css";
+}

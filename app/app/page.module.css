@@ -1,3 +1,55 @@
+.badge {
+  composes: badge from "../public.module.css";
+}
+
+.button {
+  composes: button from "../public.module.css";
+}
+
+.buttonPrimary {
+  composes: buttonPrimary from "../public.module.css";
+}
+
+.buttonRow {
+  composes: buttonRow from "../public.module.css";
+}
+
+.card {
+  composes: card from "../public.module.css";
+}
+
+.cardContent {
+  composes: cardContent from "../public.module.css";
+}
+
+.cardMedia {
+  composes: cardMedia from "../public.module.css";
+}
+
+.grid {
+  composes: grid from "../public.module.css";
+}
+
+.headline {
+  composes: headline from "../public.module.css";
+}
+
+.lead {
+  composes: lead from "../public.module.css";
+}
+
+.meta {
+  composes: meta from "../public.module.css";
+}
+
+.thumb {
+  composes: thumb from "../public.module.css";
+}
+
+.thumbText {
+  composes: thumbText from "../public.module.css";
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -9,7 +61,7 @@
   height: 200px;
 }
 
-.card {
+.cardDense {
   padding: 25px;
 }
 

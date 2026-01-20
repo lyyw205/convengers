@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import styles from "../../networking/networking.module.css";
+import styles from "./page.module.css";
 import {
   getStoredNetworkings,
   seedStoredNetworkings,
@@ -18,6 +18,7 @@ const sortByDateDesc = (items: { date: string }[]) => {
 };
 
 export default function NetworkingsPage() {
+  const upcomingRef = useRef<HTMLDivElement | null>(null);
   const historyRef = useRef<HTMLDivElement | null>(null);
   const newsRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [networkings, setNetworkings] = useState<StoredNetworking[]>([]);
@@ -28,6 +29,16 @@ export default function NetworkingsPage() {
     setNetworkings(getStoredNetworkings());
   }, []);
 
+  const upcomingItems = useMemo(
+    () =>
+      networkings
+        .filter((item) => item.status === "upcoming")
+        .slice()
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .slice(0, 5),
+    [networkings]
+  );
+
   const categories = useMemo(() => {
     const order = ["Networking", "길드 모임", "Conference/포럼", "Hackathon"];
     return order.map((title) => ({
@@ -36,6 +47,44 @@ export default function NetworkingsPage() {
       items: networkings.filter((item) => item.category === title),
     }));
   }, [networkings]);
+  const primaryNewsId = categories[0]?.id;
+
+  const handleUpcomingScroll = (direction: "prev" | "next") => {
+    const container = upcomingRef.current;
+    if (!container) {
+      return;
+    }
+    const firstCard = container.querySelector<HTMLElement>(`.${styles.upcomingCard}`);
+    const gapValue =
+      parseFloat(window.getComputedStyle(container).columnGap) ||
+      parseFloat(window.getComputedStyle(container).gap) ||
+      0;
+    const cardWidth = firstCard?.offsetWidth ?? container.clientWidth / 2;
+    const offset = cardWidth + gapValue;
+    container.scrollBy({
+      left: direction === "next" ? offset : -offset,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const container = upcomingRef.current;
+    if (!container || upcomingItems.length === 0) {
+      return;
+    }
+    const intervalId = window.setInterval(() => {
+      const firstCard = container.querySelector<HTMLElement>(`.${styles.upcomingCard}`);
+      const gapValue =
+        parseFloat(window.getComputedStyle(container).columnGap) ||
+        parseFloat(window.getComputedStyle(container).gap) ||
+        0;
+      const cardWidth = firstCard?.offsetWidth ?? container.clientWidth / 2;
+      const offset = cardWidth + gapValue;
+      container.scrollBy({ left: offset, behavior: "smooth" });
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [upcomingItems.length]);
 
   const handleHistoryScroll = (direction: "prev" | "next") => {
     const container = historyRef.current;
@@ -70,14 +119,52 @@ export default function NetworkingsPage() {
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroTag}>SOLPCLUB NETWORKING</div>
-        <h1 className={styles.heroTitle}>History</h1>
+        <h1 className={styles.heroTitle}>Upcomings</h1>
         <p className={styles.heroSubtitle}>
-          지금까지 SOLPCLUB이 함께해 온 모임과 연결의 기록입니다.
+          앞으로 다가올 네트워킹에 함께해보세요.
         </p>
       </section>
 
       <section className={styles.history}>
+        <div className={styles.upcoming}>
+          <div className={styles.upcomingTrackWrap}>
+            <button
+              type="button"
+              className={`${styles.historyButton} ${styles.upcomingNav} ${styles.upcomingPrev}`}
+              aria-label="이전 업커밍 네트워킹"
+              onClick={() => handleUpcomingScroll("prev")}
+            >
+              &lt;
+            </button>
+            <div className={styles.upcomingTrack} ref={upcomingRef}>
+            {upcomingItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={styles.upcomingCard}
+                aria-label={`${item.title} 상세 보기`}
+                onClick={() => setSelected(item)}
+              >
+                <div
+                  className={`${styles.upcomingThumb} ${
+                    item.image ? "" : styles.upcomingThumbPlaceholder
+                  }`}
+                >
+                  {item.image ? <img src={item.image} alt={item.title} /> : null}
+                </div>
+              </button>
+            ))}
+            </div>
+            <button
+              type="button"
+              className={`${styles.historyButton} ${styles.upcomingNav} ${styles.upcomingNext}`}
+              aria-label="다음 업커밍 네트워킹"
+              onClick={() => handleUpcomingScroll("next")}
+            >
+              &gt;
+            </button>
+          </div>
+        </div>
         <div className={styles.historyHeader}>
           <h2 className={styles.historyHeading}>Recent Networkings</h2>
           <div className={styles.historyControls}>
@@ -139,37 +226,34 @@ export default function NetworkingsPage() {
 
       <section className={styles.news}>
         <div className={styles.newsHeader}>
-          <div>
-            <div className={styles.sectionTag}>Networking Updates</div>
-            <h2 className={styles.sectionTitle}>Upcoming & News</h2>
-            <p className={styles.sectionSubtitle}>
-              다가오는 네트워킹 일정과 공지, 협업 소식을 전합니다.
-            </p>
+          <div className={styles.newsHeaderText}>
+            <h2 className={styles.sectionTitle}>News</h2>
+            <p className={styles.sectionSubtitle}>SOLPCLUB 및 AI 관련 소식입니다.</p>
+          </div>
+          <div className={styles.historyControls}>
+            <button
+              type="button"
+              className={styles.historyButton}
+              aria-label="이전 소식"
+              onClick={() => primaryNewsId && handleNewsScroll(primaryNewsId, "prev")}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              className={styles.historyButton}
+              aria-label="다음 소식"
+              onClick={() => primaryNewsId && handleNewsScroll(primaryNewsId, "next")}
+            >
+              →
+            </button>
           </div>
         </div>
         <div className={styles.newsCategories}>
-          {categories.map((category) => (
+          {categories.slice(0, 1).map((category) => (
             <section key={category.id} className={styles.newsCategory}>
               <div className={styles.newsCategoryHeader}>
-                <h3 className={styles.newsCategoryTitle}>{category.title}</h3>
-                <div className={styles.newsCategoryControls}>
-                  <button
-                    type="button"
-                    className={styles.newsButton}
-                    aria-label={`${category.title} 이전 소식`}
-                    onClick={() => handleNewsScroll(category.id, "prev")}
-                  >
-                    ←
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.newsButton}
-                    aria-label={`${category.title} 다음 소식`}
-                    onClick={() => handleNewsScroll(category.id, "next")}
-                  >
-                    →
-                  </button>
-                </div>
+                <div />
               </div>
               <div
                 className={styles.newsTrack}
@@ -192,7 +276,10 @@ export default function NetworkingsPage() {
                       }
                     }}
                   >
-                    <div className={styles.newsDate}>{item.date}</div>
+                    <div className={styles.newsMetaRow}>
+                      <div className={styles.newsDate}>{item.date}</div>
+                      <span className={styles.newsCategoryTag}>{category.title}</span>
+                    </div>
                     <h3 className={styles.newsTitle}>{item.title}</h3>
                     <p className={styles.newsDescription}>{item.description}</p>
                   </article>

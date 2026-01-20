@@ -1,0 +1,55 @@
+.badge {
+  composes: badge from "../../../../public.module.css";
+}
+
+.lead {
+  composes: lead from "../../../../public.module.css";
+}
+
+.modalActions {
+  composes: modalActions from "../../../../public.module.css";
+}
+
+.modalBody {
+  composes: modalBody from "../../../../public.module.css";
+}
+
+.modalCard {
+  composes: modalCard from "../../../../public.module.css";
+}
+
+.modalClose {
+  composes: modalClose from "../../../../public.module.css";
+}
+
+.modalCopy {
+  composes: modalCopy from "../../../../public.module.css";
+}
+
+.modalCta {
+  composes: modalCta from "../../../../public.module.css";
+}
+
+.modalHeader {
+  composes: modalHeader from "../../../../public.module.css";
+}
+
+.modalImage {
+  composes: modalImage from "../../../../public.module.css";
+}
+
+.modalMeta {
+  composes: modalMeta from "../../../../public.module.css";
+}
+
+.modalOverlay {
+  composes: modalOverlay from "../../../../public.module.css";
+}
+
+.modalSubtitle {
+  composes: modalSubtitle from "../../../../public.module.css";
+}
+
+.modalTitle {
+  composes: modalTitle from "../../../../public.module.css";
+}

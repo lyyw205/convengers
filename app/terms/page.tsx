@@ -1,5 +1,5 @@
 import PublicLayout from "../components/PublicLayout";
-import styles from "../public.module.css";
+import styles from "./page.module.css";
 
 export default function TermsPage() {
   return (

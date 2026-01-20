@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "./admin.module.css";
+import styles from "./page.module.css";
 import { projectStatus } from "../../lib/sample-data";
 import {
   activityFeed,
@@ -51,6 +51,12 @@ import {
   type PagePermissionConfig,
 } from "../../lib/page-permission-store";
 import {
+  getStoredSectionPermissions,
+  resetStoredSectionPermissions,
+  saveStoredSectionPermissions,
+  type SectionPermissionConfig,
+} from "../../lib/section-permission-store";
+import {
   getStoredTags,
   saveStoredTags,
   type StoredTag,
@@ -66,6 +72,7 @@ export default function AdminHomePage() {
     { id: "tags", label: "Tag settings" },
     { id: "users", label: "User permissions" },
     { id: "page-permissions", label: "Page permissions" },
+    { id: "section-permissions", label: "Section permissions" },
   ] as const;
 
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]["id"]>(
@@ -938,6 +945,8 @@ export default function AdminHomePage() {
           {activeTab === "users" && <AdminUsersTab />}
 
           {activeTab === "page-permissions" && <AdminPagePermissionsTab />}
+
+          {activeTab === "section-permissions" && <AdminSectionPermissionsTab />}
         </div>
       </div>
 
@@ -1548,6 +1557,11 @@ const defaultPagePermissionRows = [
   { path: "/app/admin", name: "Admin" },
 ];
 
+const defaultSectionPermissionRows = [
+  { id: "/app/projects:recruiting", name: "Projects · 모집중 프로젝트" },
+  { id: "/app/projects:portfolio", name: "Projects · Project Portfolio" },
+];
+
 function AdminTagsTab() {
   const [tags, setTags] = useState<StoredTag[]>(getStoredTags());
   const [newTagName, setNewTagName] = useState("");
@@ -2134,6 +2148,158 @@ function AdminPagePermissionsTab() {
                 type="button"
                 className={styles.secondaryButton}
                 onClick={() => setEditingPath(null)}
+              >
+                닫기
+              </button>
+              <button type="button" className={styles.primaryButton} onClick={handleSave}>
+                저장
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function AdminSectionPermissionsTab() {
+  const [permissions, setPermissions] = useState<SectionPermissionConfig[]>(
+    getStoredSectionPermissions()
+  );
+  const [tags, setTags] = useState<StoredTag[]>(getStoredTags());
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const refresh = () => {
+      setPermissions(getStoredSectionPermissions());
+      setTags(getStoredTags());
+    };
+    refresh();
+    window.addEventListener("tags-updated", refresh);
+    return () => {
+      window.removeEventListener("tags-updated", refresh);
+    };
+  }, []);
+
+  const toggleTag = (id: string, tag: string) => {
+    setPermissions((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) {
+          return item;
+        }
+        const hasTag = item.requiredTags.includes(tag);
+        const nextTags = hasTag
+          ? item.requiredTags.filter((existing) => existing !== tag)
+          : [...item.requiredTags, tag];
+        return { ...item, requiredTags: nextTags };
+      })
+    );
+  };
+
+  const handleSave = () => {
+    saveStoredSectionPermissions(permissions);
+    window.dispatchEvent(new Event("section-permissions-updated"));
+  };
+
+  const handleReset = () => {
+    resetStoredSectionPermissions();
+    setPermissions(getStoredSectionPermissions());
+    window.dispatchEvent(new Event("section-permissions-updated"));
+  };
+
+  const editingRow = defaultSectionPermissionRows.find((row) => row.id === editingId);
+  const editingPermissions = permissions.find((item) => item.id === editingId);
+  const activeTags = editingPermissions?.requiredTags ?? [];
+  const pageTags = tags.filter((tag) => tag.category !== "event");
+
+  return (
+    <div className={styles.card}>
+      <h3>섹션 권한</h3>
+      <p className={styles.muted}>페이지 내부 섹션의 접근 태그를 관리합니다.</p>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>ID</th>
+            <th>Required tags</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {defaultSectionPermissionRows.map((row) => {
+            const current = permissions.find((item) => item.id === row.id);
+            return (
+              <tr key={row.id}>
+                <td>{row.name}</td>
+                <td>{row.id}</td>
+                <td>
+                  {current?.requiredTags.length ? (
+                    <div className={styles.tagRow}>
+                      {current.requiredTags.map((tag) => (
+                        <span key={tag} className={styles.tag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className={styles.muted}>없음</span>
+                  )}
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    className={styles.iconButton}
+                    aria-label={`${row.name} 권한 수정`}
+                    onClick={() => setEditingId(row.id)}
+                  >
+                    ✎
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className={styles.actionRow}>
+        <button type="button" className={styles.secondaryButton} onClick={handleReset}>
+          Reset
+        </button>
+        <button type="button" className={styles.primaryButton} onClick={handleSave}>
+          Save
+        </button>
+      </div>
+      {editingRow ? (
+        <div className={styles.modalOverlay} onClick={() => setEditingId(null)}>
+          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div>
+                <h3>{editingRow.name} 권한 편집</h3>
+                <p className={styles.muted}>{editingRow.id} 접근 태그를 선택하세요.</p>
+              </div>
+            </div>
+            <div className={styles.modalBody}>
+              {pageTags.length === 0 ? (
+                <p className={styles.muted}>등록된 태그가 없습니다.</p>
+              ) : (
+                <div className={styles.checkboxGrid}>
+                  {pageTags.map((tag) => (
+                    <label key={tag.name} className={styles.checkboxItem}>
+                      <input
+                        type="checkbox"
+                        checked={activeTags.includes(tag.name)}
+                        onChange={() => toggleTag(editingRow.id, tag.name)}
+                      />
+                      <span>{tag.name}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className={styles.modalFooter}>
+              <button
+                type="button"
+                className={styles.secondaryButton}
+                onClick={() => setEditingId(null)}
               >
                 닫기
               </button>

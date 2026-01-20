@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import PublicLayout from "../../components/PublicLayout";
-import styles from "../../public.module.css";
+import styles from "./page.module.css";
 import { portfolioItems } from "../../lib/sample-data";
 
 type PortfolioDetailPageProps = {

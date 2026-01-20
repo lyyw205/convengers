@@ -48,8 +48,6 @@ export default function PortalLayout({
             <div>
               <div className={styles.label}>Operations</div>
               <Link href="/app/projects">Projects</Link>
-              <Link href="/app/postings">Postings</Link>
-              <Link href="/app/applications">Community</Link>
             </div>
             <div>
               <div className={styles.label}>Admin</div>

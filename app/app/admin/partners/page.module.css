@@ -1,0 +1,7 @@
+.card {
+  composes: card from "../admin.module.css";
+}
+
+.table {
+  composes: table from "../admin.module.css";
+}
