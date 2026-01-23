@@ -1243,6 +1243,29 @@
   letter-spacing: 0.08em;
 }
 
+.cta {
+  color: inherit;
+}
+
+.profileLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.profileAvatar {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
 .main {
   max-width: var(--content-max);
   margin: 0 auto;

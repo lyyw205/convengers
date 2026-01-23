@@ -1,0 +1,183 @@
+.pageTitle {
+  font-size: 40px;
+  margin-bottom: 12px;
+  font-family: "Pretendard", "Segoe UI", sans-serif;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 18px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.body {
+  display: grid;
+  gap: 200px;
+  margin-bottom: 64px;
+}
+
+.videoSection {
+  display: grid;
+  gap: 16px;
+}
+
+.videoFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000000;
+}
+
+.videoFrame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.textSection {
+  display: grid;
+  gap: 12px;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 26px;
+  margin: 0;
+}
+
+.cardDescription {
+  color: var(--muted);
+  margin: 0;
+}
+
+.circleSection {
+  display: grid;
+  gap: 20px;
+}
+
+.circleRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.circleItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(20, 20, 20, 0.1);
+  background: #ffffff;
+}
+
+.circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.circleGreen {
+  background: #eaf7ee;
+}
+
+.circleBlue {
+  background: #e8f0ff;
+}
+
+.circlePurple {
+  background: #efe8ff;
+}
+
+.circleIcon {
+  width: 36px;
+  height: 36px;
+}
+
+.circleText {
+  display: grid;
+  gap: 6px;
+}
+
+.circleTitle {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.circleDesc {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.memberWrap {
+  display: grid;
+  gap: 20px;
+}
+
+.memberSection {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+}
+
+.memberEyebrow {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.memberTitle {
+  font-size: 28px;
+  margin: 0;
+}
+
+.memberDescription {
+  color: var(--muted);
+  margin: 0;
+}
+
+.memberCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.memberCardItem {
+  border-radius: 18px;
+  border: 1px solid rgba(20, 20, 20, 0.1);
+  background: #ffffff;
+  overflow: hidden;
+  display: grid;
+  gap: 16px;
+}
+
+.memberCardMedia {
+  height: 140px;
+  background: linear-gradient(135deg, #111111, #5a5a5a);
+}
+
+.memberCardText {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px 20px;
+}
+
+.memberCardDesc {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.memberCardTitle {
+  font-size: 16px;
+  line-height: 1.4;
+}

@@ -50,6 +50,48 @@
   composes: thumbText from "../public.module.css";
 }
 
+.projectThumb {
+  border-radius: 16px;
+  min-height: 160px;
+  display: grid;
+  align-items: end;
+  padding: 16px;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.projectThumb1 {
+  background: linear-gradient(135deg, #1b1b1b, #4a4a4a);
+}
+
+.projectThumb2 {
+  background: linear-gradient(135deg, #0e2a47, #3b6bb5);
+}
+
+.projectThumb3 {
+  background: linear-gradient(135deg, #3d1a5a, #a07ad6);
+}
+
+.projectTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
+.projectTag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  color: #111111;
+  background: #ffffff;
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -71,33 +113,70 @@
 
 .hero {
   margin: 0 !important;
-  padding: 28px 32px !important;
+  padding: 48px 32px !important;
   text-align: left !important;
   width: 100% !important;
   max-width: 100% !important;
-  background: #f1f1f1 !important;
+  background: #000000 !important;
   min-height: 360px !important;
   display: grid !important;
   align-content: center !important;
+  position: relative !important;
+  color: #ffffff !important;
 }
 
 .heroTitle {
   font-family: "Pretendard", "Segoe UI", sans-serif;
   font-size: clamp(28px, 3vw, 36px);
   margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.heroSubtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  max-width: 720px;
 }
 
 .heroInner {
   max-width: var(--content-max);
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .heroCtaNote {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 14px;
-  border: 1px dashed rgba(20, 20, 20, 0.2);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
   padding: 10px 14px;
   border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.heroVideoBackdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000000;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.heroVideoBackdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.heroVideoBackdrop iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .portfolioTitle {
@@ -116,14 +195,13 @@
   font-family: "Pretendard", "Segoe UI", sans-serif;
   font-size: clamp(18px, 2.6vw, 24px);
   margin: 0;
-  text-align: center;
+  text-align: left;
 }
 
-.partnersDesc {
-  color: var(--muted);
-  font-size: 16px;
-  margin: 0 0 12px;
-  text-align: center;
+.fullBleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
 .referenceWrap {
@@ -132,25 +210,44 @@
   overflow: hidden;
 }
 
-.logoField {
-  position: relative;
-  min-height: 280px;
+.logoScroller {
   width: 100%;
+  overflow: hidden;
+  padding: 8px 0 0;
 }
 
-.logoFloating {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: var(--w);
-  transform: rotate(var(--r));
+.logoTrack {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  width: max-content;
+  animation: logo-marquee 110s linear infinite;
+}
+
+.logoItem {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: 150px;
 }
 
 .logoImage {
   width: 100%;
-  height: 48px;
+  height: 100%;
   object-fit: contain;
-  opacity: 0.7;
+  opacity: 0.72;
+  filter: grayscale(10%);
+}
+
+@keyframes logo-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @media (max-width: 900px) {
@@ -160,7 +257,13 @@
     padding-right: 20px;
   }
 
-  .logoField {
-    min-height: 360px;
+  .logoTrack {
+    gap: 20px;
+    animation-duration: 84s;
+  }
+
+  .logoItem {
+    width: 120px;
+    height: 52px;
   }
 }

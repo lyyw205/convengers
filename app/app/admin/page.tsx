@@ -36,6 +36,12 @@ import {
   updateStoredNetworking,
   type StoredNetworking,
 } from "../../lib/networking-store";
+import {
+  getStoredContactSubmissions,
+  getReadContactSubmissionIds,
+  markContactSubmissionRead,
+  type ContactSubmission,
+} from "../../lib/contact-store";
 import { getNetworkingApplicantsById } from "../../lib/networking-applicant-store";
 import {
   getStoredCategories,
@@ -44,35 +50,16 @@ import {
   type StoredCategory,
   type StoredCategoryGroup,
 } from "../../lib/category-store";
-import {
-  getStoredPagePermissions,
-  resetStoredPagePermissions,
-  saveStoredPagePermissions,
-  type PagePermissionConfig,
-} from "../../lib/page-permission-store";
-import {
-  getStoredSectionPermissions,
-  resetStoredSectionPermissions,
-  saveStoredSectionPermissions,
-  type SectionPermissionConfig,
-} from "../../lib/section-permission-store";
-import {
-  getStoredTags,
-  saveStoredTags,
-  type StoredTag,
-} from "../../lib/tag-store";
 
 export default function AdminHomePage() {
   const tabs = [
-    { id: "dashboard", label: "Dashboard" },
+    { id: "dashboard", label: "DASHBOARD" },
+    { id: "portfolio", label: "PORTFOLIO" },
     { id: "postings", label: "PROJECTS" },
-    { id: "applications", label: "Postings" },
-    { id: "networkings", label: "Networkings" },
-    { id: "categories", label: "Categories" },
-    { id: "tags", label: "Tag settings" },
-    { id: "users", label: "User permissions" },
-    { id: "page-permissions", label: "Page permissions" },
-    { id: "section-permissions", label: "Section permissions" },
+    { id: "networkings", label: "NETWORKINGS" },
+    { id: "applications", label: "CONTACT US" },
+    { id: "categories", label: "CATEGORIES" },
+    { id: "user-management", label: "USER MANAGEMENT" },
   ] as const;
 
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]["id"]>(
@@ -97,6 +84,9 @@ export default function AdminHomePage() {
   const [networkingApplicants, setNetworkingApplicants] = useState<
     ReturnType<typeof getNetworkingApplicantsById>
   >([]);
+  const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
+  const [contactReadIds, setContactReadIds] = useState<string[]>([]);
+  const [selectedContact, setSelectedContact] = useState<ContactSubmission | null>(null);
   const [storedCategories, setStoredCategories] = useState<StoredCategory[]>([]);
   const [projectForm, setProjectForm] = useState({
     title: "B2B SaaS 운영 대시보드 리뉴얼",
@@ -151,10 +141,20 @@ export default function AdminHomePage() {
     setStoredPostings(getStoredPostings());
     setStoredNetworkings(getStoredNetworkings());
     setStoredCategories(getStoredCategories());
+    setContactSubmissions(getStoredContactSubmissions());
+    setContactReadIds(getReadContactSubmissionIds());
     const refreshCategories = () => setStoredCategories(getStoredCategories());
+    const refreshContacts = () => {
+      setContactSubmissions(getStoredContactSubmissions());
+      setContactReadIds(getReadContactSubmissionIds());
+    };
     window.addEventListener("categories-updated", refreshCategories);
+    window.addEventListener("contact-submissions-updated", refreshContacts);
+    window.addEventListener("storage", refreshContacts);
     return () => {
       window.removeEventListener("categories-updated", refreshCategories);
+      window.removeEventListener("contact-submissions-updated", refreshContacts);
+      window.removeEventListener("storage", refreshContacts);
     };
   }, []);
 
@@ -479,7 +479,7 @@ export default function AdminHomePage() {
         <div>
           <h2 className={styles.sectionTitle}>Operations console</h2>
           <p className={styles.sectionSubtitle}>
-            Manage partners, postings, leads, references, and settlements.
+            Manage partners, postings, leads, portfolios, and settlements.
           </p>
         </div>
       </div>
@@ -676,7 +676,7 @@ export default function AdminHomePage() {
                 <div>
                   <h3 className={styles.sectionTitle}>이번 주 공개 포트폴리오</h3>
                   <p className={styles.sectionSubtitle}>
-                    공개 레퍼런스가 수요를 만듭니다.
+                    공개 포트폴리오가 수요를 만듭니다.
                   </p>
                 </div>
                 <span className={styles.pill}>이번 주 1회 남음</span>
@@ -810,54 +810,55 @@ export default function AdminHomePage() {
             <div className={styles.card}>
           <div className={styles.cardHeader}>
             <div>
-              <h2>Postings</h2>
+              <h2>Contact us</h2>
               <p className={styles.muted}>
-                /app/postings 페이지에 노출되는 게시글을 관리합니다.
+                Contact us 폼에서 제출된 내용을 확인합니다.
               </p>
             </div>
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={openNewPostingModal}
-            >
-              포스팅 등록
-            </button>
           </div>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Source</th>
-                <th>Actions</th>
+                <th>Type</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
-              {storedPostings.length === 0 ? (
+              {contactSubmissions.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className={styles.muted}>
-                    등록된 게시글이 없습니다.
+                  <td colSpan={4} className={styles.muted}>
+                    제출된 문의가 없습니다.
                   </td>
                 </tr>
               ) : (
-                storedPostings.map((posting) => (
-                  <tr key={posting.id}>
-                    <td>{posting.title}</td>
-                    <td>{posting.category}</td>
-                    <td>{posting.date}</td>
-                    <td>{posting.source}</td>
+                contactSubmissions.map((submission) => (
+                  <tr key={submission.id}>
+                    <td>{submission.tabLabel}</td>
+                    <td>{new Date(submission.submittedAt).toLocaleString("ko-KR")}</td>
                     <td>
-                      <div className={styles.actionRow}>
-                        <button
-                          type="button"
-                          className={styles.iconButton}
-                          aria-label="포스팅 수정"
-                          onClick={() => openEditPostingModal(posting)}
-                        >
-                          ✎
-                        </button>
-                      </div>
+                      <span
+                        className={`${styles.readBadge} ${
+                          contactReadIds.includes(submission.id)
+                            ? styles.readBadgeDone
+                            : styles.readBadgeNew
+                        }`}
+                      >
+                        {contactReadIds.includes(submission.id) ? "읽음" : "안읽음"}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={styles.detailButton}
+                        onClick={() => {
+                          setSelectedContact(submission);
+                          markContactSubmissionRead(submission.id);
+                        }}
+                      >
+                        자세히보기
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -936,17 +937,52 @@ export default function AdminHomePage() {
             </tbody>
           </table>
         </div>
-      )}
+          )}
+
+          {activeTab === "portfolio" && (
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <div>
+                  <h2>Portfolio submissions</h2>
+                  <p className={styles.muted}>
+                    멤버가 제출한 포트폴리오 링크를 최신순으로 확인합니다.
+                  </p>
+                </div>
+              </div>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Link</th>
+                    <th>User</th>
+                    <th>Submitted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...portfolioSubmissions]
+                    .sort(
+                      (a, b) =>
+                        new Date(b.submittedAt).getTime() -
+                        new Date(a.submittedAt).getTime()
+                    )
+                    .map((item) => (
+                      <tr key={`${item.link}-${item.submittedAt}`}>
+                        <td>
+                          <a href={item.link} target="_blank" rel="noreferrer">
+                            {item.title}
+                          </a>
+                        </td>
+                        <td>{item.owner}</td>
+                        <td>{new Date(item.submittedAt).toLocaleString("ko-KR")}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {activeTab === "user-management" && <AdminUsersTab />}
 
           {activeTab === "categories" && <AdminCategoriesTab />}
-
-          {activeTab === "tags" && <AdminTagsTab />}
-
-          {activeTab === "users" && <AdminUsersTab />}
-
-          {activeTab === "page-permissions" && <AdminPagePermissionsTab />}
-
-          {activeTab === "section-permissions" && <AdminSectionPermissionsTab />}
         </div>
       </div>
 
@@ -1515,6 +1551,37 @@ export default function AdminHomePage() {
           </div>
         </div>
       )}
+
+      {selectedContact ? (
+        <div className={styles.modalOverlay} onClick={() => setSelectedContact(null)}>
+          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div>
+                <h3>Contact us · {selectedContact.tabLabel}</h3>
+                <p className={styles.muted}>
+                  {new Date(selectedContact.submittedAt).toLocaleString("ko-KR")}
+                </p>
+              </div>
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={() => setSelectedContact(null)}
+              >
+                닫기
+              </button>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.detailList}>
+                {selectedContact.fields.map((field) => (
+                  <div key={`${selectedContact.id}-${field.label}`}>
+                    <strong>{field.label}:</strong> {field.value || "-"}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -1524,367 +1591,67 @@ const mockUsers = [
     name: "Eunji Park",
     email: "eunji@convengers.studio",
     role: "Partner",
-    tags: ["PROJECT_VIEW", "COMMUNITY_VIEW", "PROFILE_VIEW"],
+    grade: "Regular",
+    roles: ["role_member_regular"],
+    tags: ["scope:page:projects", "scope:page:applications", "scope:page:profile"],
   },
   {
     name: "Minho Lee",
     email: "minho@convengers.studio",
     role: "Contributor",
-    tags: ["PROJECT_VIEW", "POSTING_VIEW"],
+    grade: "Rookie",
+    roles: ["role_member_basic"],
+    tags: ["scope:page:projects", "scope:page:postings"],
   },
   {
     name: "Jisoo Kim",
     email: "jisoo@convengers.studio",
     role: "Creator",
-    tags: ["PROFILE_VIEW", "PORTFOLIO_VIEW", "RATINGS_VIEW"],
+    grade: "Pro",
+    roles: ["role_member_pro"],
+    tags: ["scope:page:profile", "scope:page:portfolio", "scope:page:ratings"],
   },
   {
     name: "Daniel Choi",
     email: "daniel@convengers.studio",
     role: "Admin",
-    tags: ["ADMIN", "BILLING_VIEW", "PROJECT_VIEW"],
+    grade: "Admin",
+    roles: ["role_admin"],
+    tags: ["scope:page:admin", "scope:page:billing", "scope:page:projects"],
   },
 ];
 
-const defaultPagePermissionRows = [
-  { path: "/app", name: "Dashboard" },
-  { path: "/app/projects", name: "Projects" },
-  { path: "/app/gallery", name: "Gallery" },
-  { path: "/app/postings", name: "Postings" },
-  { path: "/app/networkings", name: "Networkings" },
-  { path: "/app/applications", name: "Community" },
-  { path: "/app/profile", name: "Profile" },
-  { path: "/app/admin", name: "Admin" },
+const portfolioSubmissions = [
+  {
+    title: "AI 고객지원 포털 리뉴얼",
+    link: "https://portfolio.example/ai-support-portal",
+    owner: "진 박",
+    submittedAt: "2026-01-22T10:40:00+09:00",
+  },
+  {
+    title: "커머스 추천 엔진 대시보드",
+    link: "https://portfolio.example/commerce-reco",
+    owner: "민 서",
+    submittedAt: "2026-01-21T18:15:00+09:00",
+  },
+  {
+    title: "AI 브랜딩 자동화 웹앱",
+    link: "https://portfolio.example/ai-branding",
+    owner: "지우 한",
+    submittedAt: "2026-01-19T09:05:00+09:00",
+  },
 ];
-
-const defaultSectionPermissionRows = [
-  { id: "/app/projects:recruiting", name: "Projects · 모집중 프로젝트" },
-  { id: "/app/projects:portfolio", name: "Projects · Project Portfolio" },
-];
-
-function AdminTagsTab() {
-  const [tags, setTags] = useState<StoredTag[]>(getStoredTags());
-  const [newTagName, setNewTagName] = useState("");
-  const [newTagDescription, setNewTagDescription] = useState("");
-  const [newTagCategory, setNewTagCategory] = useState<StoredTag["category"]>("page");
-  const [tagModalOpen, setTagModalOpen] = useState(false);
-  const [tagError, setTagError] = useState("");
-  const [editingTagName, setEditingTagName] = useState<string | null>(null);
-  const [editTagName, setEditTagName] = useState("");
-  const [editTagDescription, setEditTagDescription] = useState("");
-  const [editTagCategory, setEditTagCategory] = useState<StoredTag["category"]>("page");
-  const [editTagError, setEditTagError] = useState("");
-
-  const normalizeTagName = (value: string) =>
-    value
-      .trim()
-      .toUpperCase()
-      .replace(/\s+/g, "_")
-      .replace(/[^A-Z0-9_]/g, "");
-
-  useEffect(() => {
-    setTags(getStoredTags());
-  }, []);
-
-  const handleAddTag = () => {
-    const name = normalizeTagName(newTagName);
-    if (!name) {
-      setTagError("태그 이름을 입력하세요.");
-      return;
-    }
-    if (tags.some((tag) => tag.name === name)) {
-      setTagError("이미 존재하는 태그입니다.");
-      return;
-    }
-    const updated = [...tags, { name, description: newTagDescription.trim() }];
-    const categorized = updated.map((tag) => ({
-      ...tag,
-      category: tag.category ?? "page",
-    }));
-    categorized[categorized.length - 1] = {
-      ...categorized[categorized.length - 1],
-      category: newTagCategory ?? "page",
-    };
-    saveStoredTags(categorized);
-    setTags(getStoredTags());
-    setNewTagName("");
-    setNewTagDescription("");
-    setNewTagCategory("page");
-    setTagError("");
-    setTagModalOpen(false);
-    window.dispatchEvent(new Event("tags-updated"));
-  };
-
-  const handleDeleteTag = (name: string) => {
-    const updated = tags.filter((tag) => tag.name !== name);
-    saveStoredTags(updated);
-    setTags(getStoredTags());
-    const cleanedPermissions = getStoredPagePermissions().map((item) => ({
-      ...item,
-      requiredTags: item.requiredTags.filter((tag) => tag !== name),
-    }));
-    saveStoredPagePermissions(cleanedPermissions);
-    window.dispatchEvent(new Event("tags-updated"));
-    window.dispatchEvent(new Event("page-permissions-updated"));
-  };
-
-  const openEditTagModal = (tag: StoredTag) => {
-    setEditingTagName(tag.name);
-    setEditTagName(tag.name);
-    setEditTagDescription(tag.description ?? "");
-    setEditTagCategory(tag.category ?? "page");
-    setEditTagError("");
-  };
-
-  const handleEditTag = () => {
-    const normalized = normalizeTagName(editTagName);
-    if (!normalized) {
-      setEditTagError("태그 이름을 입력하세요.");
-      return;
-    }
-    if (normalized !== editingTagName && tags.some((tag) => tag.name === normalized)) {
-      setEditTagError("이미 존재하는 태그입니다.");
-      return;
-    }
-    const updated = tags.map((tag) => {
-      if (tag.name !== editingTagName) {
-        return tag;
-      }
-      return {
-        ...tag,
-        name: normalized,
-        description: editTagDescription.trim(),
-        category: editTagCategory ?? "page",
-      };
-    });
-    saveStoredTags(updated);
-    setTags(getStoredTags());
-    setEditingTagName(null);
-    setEditTagError("");
-    window.dispatchEvent(new Event("tags-updated"));
-  };
-
-  const getUsage = (name: string) =>
-    mockUsers.filter((user) => user.tags.includes(name)).length;
-
-  return (
-    <div className={styles.cardGrid}>
-      <div className={styles.card}>
-        <div className={styles.cardHeader}>
-          <div>
-            <h3>Tag catalog</h3>
-            <p className={styles.muted}>
-              태그 추가/삭제는 임시 로컬 저장소에 반영됩니다.
-            </p>
-          </div>
-          <button
-            className={styles.primaryButton}
-            type="button"
-            onClick={() => {
-              setTagError("");
-              setTagModalOpen(true);
-            }}
-          >
-            태그 추가하기
-          </button>
-        </div>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Tag</th>
-              <th>Description</th>
-              <th>Usage</th>
-              <th>Category</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tags.map((tag) => (
-              <tr key={tag.name}>
-                <td>{tag.name}</td>
-                <td>{tag.description || "-"}</td>
-                <td>{getUsage(tag.name)}</td>
-                <td>{tag.category === "event" ? "이벤트성" : "페이지 권한"}</td>
-                <td>
-                  <button
-                    type="button"
-                    className={styles.iconButton}
-                    aria-label={`${tag.name} 편집`}
-                    onClick={() => openEditTagModal(tag)}
-                  >
-                    ✎
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {tagModalOpen ? (
-        <div className={styles.modalOverlay} onClick={() => setTagModalOpen(false)}>
-          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <div>
-                <h3>태그 추가</h3>
-                <p className={styles.muted}>새 태그 정보를 입력하세요.</p>
-              </div>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={() => setTagModalOpen(false)}
-              >
-                닫기
-              </button>
-            </div>
-            <div className={styles.modalBody}>
-              <label className={styles.label}>Tag name</label>
-              <input
-                className={styles.input}
-                value={newTagName}
-                onChange={(event) => setNewTagName(event.target.value)}
-                placeholder="예: PROJECT_VIEW"
-              />
-              <label className={styles.label}>Description</label>
-              <input
-                className={styles.input}
-                value={newTagDescription}
-                onChange={(event) => setNewTagDescription(event.target.value)}
-                placeholder="태그 설명을 입력하세요"
-              />
-              <label className={styles.label}>Category</label>
-              <select
-                className={styles.select}
-                value={newTagCategory ?? "page"}
-                onChange={(event) =>
-                  setNewTagCategory(event.target.value as StoredTag["category"])
-                }
-              >
-                <option value="page">페이지 권한</option>
-                <option value="event">이벤트성</option>
-                </select>
-              {tagError ? <p className={styles.formError}>{tagError}</p> : null}
-            </div>
-            <div className={styles.modalFooter}>
-              <button
-                className={styles.secondaryButton}
-                type="button"
-                onClick={() => setTagModalOpen(false)}
-              >
-                취소
-              </button>
-              <button className={styles.primaryButton} type="button" onClick={handleAddTag}>
-                Add tag
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {editingTagName ? (
-        <div className={styles.modalOverlay} onClick={() => setEditingTagName(null)}>
-          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <div>
-                <h3>태그 편집</h3>
-                <p className={styles.muted}>태그 정보를 수정하세요.</p>
-              </div>
-              <button
-                type="button"
-                className={styles.iconButton}
-                aria-label="태그 삭제"
-                onClick={() => {
-                  if (!editingTagName) {
-                    return;
-                  }
-                  if (!window.confirm("이 태그를 삭제할까요?")) {
-                    return;
-                  }
-                  handleDeleteTag(editingTagName);
-                  setEditingTagName(null);
-                }}
-              >
-                🗑
-              </button>
-            </div>
-            <div className={styles.modalBody}>
-              <label className={styles.label}>Tag name</label>
-              <input
-                className={styles.input}
-                value={editTagName}
-                onChange={(event) => setEditTagName(event.target.value)}
-                placeholder="예: PROJECT_VIEW"
-              />
-              <label className={styles.label}>Description</label>
-              <input
-                className={styles.input}
-                value={editTagDescription}
-                onChange={(event) => setEditTagDescription(event.target.value)}
-                placeholder="태그 설명을 입력하세요"
-              />
-              <label className={styles.label}>Category</label>
-              <select
-                className={styles.select}
-                value={editTagCategory ?? "page"}
-                onChange={(event) =>
-                  setEditTagCategory(event.target.value as StoredTag["category"])
-                }
-              >
-                <option value="page">페이지 권한</option>
-                <option value="event">이벤트성</option>
-              </select>
-              {editTagError ? <p className={styles.formError}>{editTagError}</p> : null}
-            </div>
-            <div className={styles.modalFooter}>
-              <button
-                className={styles.secondaryButton}
-                type="button"
-                onClick={() => setEditingTagName(null)}
-              >
-                취소
-              </button>
-              <button className={styles.primaryButton} type="button" onClick={handleEditTag}>
-                저장
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-    </div>
-  );
-}
 
 function AdminUsersTab() {
-  const [tags, setTags] = useState<StoredTag[]>(getStoredTags());
   const [users, setUsers] = useState(mockUsers);
   const [editingUserEmail, setEditingUserEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    const refreshTags = () => setTags(getStoredTags());
-    refreshTags();
-    window.addEventListener("tags-updated", refreshTags);
-    return () => {
-      window.removeEventListener("tags-updated", refreshTags);
-    };
-  }, []);
+  const gradeOptions = ["Guest", "Rookie", "Regular", "Pro", "Leader", "Admin", "Master"];
 
   const editingUser = users.find((user) => user.email === editingUserEmail) ?? null;
-  const pageTags = tags.filter((tag) => tag.category !== "event");
-  const eventTags = tags.filter((tag) => tag.category === "event");
 
-  const toggleUserTag = (email: string, tag: string) => {
+  const updateUserGrade = (email: string, grade: string) => {
     setUsers((prev) =>
-      prev.map((user) => {
-        if (user.email !== email) {
-          return user;
-        }
-        const hasTag = user.tags.includes(tag);
-        const nextTags = hasTag
-          ? user.tags.filter((existing) => existing !== tag)
-          : [...user.tags, tag];
-        return { ...user, tags: nextTags };
-      })
+      prev.map((user) => (user.email === email ? { ...user, grade } : user))
     );
   };
 
@@ -1893,7 +1660,7 @@ function AdminUsersTab() {
       <div className={styles.card}>
         <h3>Users</h3>
         <p className={styles.muted}>
-          Search/filter and tag assignment will be wired to DB later.
+          Search/filter and grade assignment will be wired to DB later.
         </p>
         <div className={styles.searchRow}>
           <input className={styles.input} placeholder="Search by name or email" />
@@ -1909,8 +1676,7 @@ function AdminUsersTab() {
           <thead>
             <tr>
               <th>User</th>
-              <th>Role</th>
-              <th>Tags</th>
+              <th>Grade</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -1921,21 +1687,12 @@ function AdminUsersTab() {
                   <strong>{user.name}</strong>
                   <div className={styles.muted}>{user.email}</div>
                 </td>
-                <td>{user.role}</td>
-                <td>
-                  <div className={styles.tagRow}>
-                    {user.tags.map((tag) => (
-                      <span key={tag} className={styles.tag}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </td>
+                <td>{user.grade ?? "Guest"}</td>
                 <td>
                   <button
                     type="button"
                     className={styles.iconButton}
-                    aria-label={`${user.name} 태그 편집`}
+                    aria-label={`${user.name} 등급 편집`}
                     onClick={() => setEditingUserEmail(user.email)}
                   >
                     ✎
@@ -1952,7 +1709,7 @@ function AdminUsersTab() {
           <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
             <div className={styles.modalHeader}>
               <div>
-                <h3>{editingUser.name} 태그 편집</h3>
+                <h3>{editingUser.name} 등급 편집</h3>
                 <p className={styles.muted}>{editingUser.email}</p>
               </div>
               <button
@@ -1964,348 +1721,25 @@ function AdminUsersTab() {
               </button>
             </div>
             <div className={styles.modalBody}>
-              {tags.length === 0 ? (
-                <p className={styles.muted}>등록된 태그가 없습니다.</p>
-              ) : (
-                <div className={styles.formStack}>
-                  <div className={styles.formBlock}>
-                    <h4 className={styles.sectionTitle}>페이지 권한</h4>
-                    {pageTags.length === 0 ? (
-                      <p className={styles.muted}>페이지 권한 태그가 없습니다.</p>
-                    ) : (
-                      <div className={styles.checkboxGrid}>
-                        {pageTags.map((tag) => (
-                          <label key={tag.name} className={styles.checkboxItem}>
-                            <input
-                              type="checkbox"
-                              checked={editingUser.tags.includes(tag.name)}
-                              onChange={() => toggleUserTag(editingUser.email, tag.name)}
-                            />
-                            <span>{tag.name}</span>
-                          </label>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className={styles.formBlock}>
-                    <h4 className={styles.sectionTitle}>이벤트성</h4>
-                    {eventTags.length === 0 ? (
-                      <p className={styles.muted}>이벤트성 태그가 없습니다.</p>
-                    ) : (
-                      <div className={styles.checkboxGrid}>
-                        {eventTags.map((tag) => (
-                          <label key={tag.name} className={styles.checkboxItem}>
-                            <input
-                              type="checkbox"
-                              checked={editingUser.tags.includes(tag.name)}
-                              onChange={() => toggleUserTag(editingUser.email, tag.name)}
-                            />
-                            <span>{tag.name}</span>
-                          </label>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function AdminPagePermissionsTab() {
-  const [permissions, setPermissions] = useState<PagePermissionConfig[]>(
-    getStoredPagePermissions()
-  );
-  const [tags, setTags] = useState<StoredTag[]>(getStoredTags());
-  const [editingPath, setEditingPath] = useState<string | null>(null);
-
-  useEffect(() => {
-    const refresh = () => {
-      setPermissions(getStoredPagePermissions());
-      setTags(getStoredTags());
-    };
-    refresh();
-    window.addEventListener("tags-updated", refresh);
-    return () => {
-      window.removeEventListener("tags-updated", refresh);
-    };
-  }, []);
-
-  const toggleTag = (path: string, tag: string) => {
-    setPermissions((prev) =>
-      prev.map((item) => {
-        if (item.path !== path) {
-          return item;
-        }
-        const hasTag = item.requiredTags.includes(tag);
-        const nextTags = hasTag
-          ? item.requiredTags.filter((existing) => existing !== tag)
-          : [...item.requiredTags, tag];
-        return { ...item, requiredTags: nextTags };
-      })
-    );
-  };
-
-  const handleSave = () => {
-    saveStoredPagePermissions(permissions);
-    window.dispatchEvent(new Event("page-permissions-updated"));
-  };
-
-  const handleReset = () => {
-    resetStoredPagePermissions();
-    setPermissions(getStoredPagePermissions());
-    window.dispatchEvent(new Event("page-permissions-updated"));
-  };
-
-  const editingRow = defaultPagePermissionRows.find((row) => row.path === editingPath);
-  const editingPermissions = permissions.find((item) => item.path === editingPath);
-  const activeTags = editingPermissions?.requiredTags ?? [];
-  const pageTags = tags.filter((tag) => tag.category !== "event");
-
-  return (
-    <div className={styles.card}>
-      <h3>페이지 권한</h3>
-      <p className={styles.muted}>
-        /app 헤더에 노출되는 페이지의 접근 태그를 관리합니다.
-      </p>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Page</th>
-            <th>Path</th>
-            <th>Required tags</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {defaultPagePermissionRows.map((row) => {
-            const current = permissions.find((item) => item.path === row.path);
-            return (
-              <tr key={row.path}>
-                <td>{row.name}</td>
-                <td>{row.path}</td>
-                <td>
-                  {current?.requiredTags.length ? (
-                    <div className={styles.tagRow}>
-                      {current.requiredTags.map((tag) => (
-                        <span key={tag} className={styles.tag}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className={styles.muted}>없음</span>
-                  )}
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    className={styles.iconButton}
-                    aria-label={`${row.name} 권한 수정`}
-                    onClick={() => setEditingPath(row.path)}
+              <div className={styles.formStack}>
+                <div className={styles.formBlock}>
+                  <h4 className={styles.sectionTitle}>멤버 등급</h4>
+                  <select
+                    className={styles.select}
+                    value={editingUser.grade ?? "Guest"}
+                    onChange={(event) => updateUserGrade(editingUser.email, event.target.value)}
                   >
-                    ✎
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      {editingRow ? (
-        <div className={styles.modalOverlay} onClick={() => setEditingPath(null)}>
-          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <div>
-                <h3>{editingRow.name} 권한 편집</h3>
-                <p className={styles.muted}>{editingRow.path} 접근 태그를 선택하세요.</p>
-              </div>
-            </div>
-            <div className={styles.modalBody}>
-              {pageTags.length === 0 ? (
-                <p className={styles.muted}>등록된 태그가 없습니다.</p>
-              ) : (
-                <div className={styles.checkboxGrid}>
-                  {pageTags.map((tag) => (
-                    <label key={tag.name} className={styles.checkboxItem}>
-                      <input
-                        type="checkbox"
-                        checked={activeTags.includes(tag.name)}
-                        onChange={() => toggleTag(editingRow.path, tag.name)}
-                      />
-                      <span>{tag.name}</span>
-                    </label>
-                  ))}
+                    {gradeOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <p className={styles.muted}>
+                    권한/태그는 백엔드에서 등급 기준으로 관리됩니다.
+                  </p>
                 </div>
-              )}
-            </div>
-            <div className={styles.modalFooter}>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={() => setEditingPath(null)}
-              >
-                닫기
-              </button>
-              <button type="button" className={styles.primaryButton} onClick={handleSave}>
-                저장
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function AdminSectionPermissionsTab() {
-  const [permissions, setPermissions] = useState<SectionPermissionConfig[]>(
-    getStoredSectionPermissions()
-  );
-  const [tags, setTags] = useState<StoredTag[]>(getStoredTags());
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const refresh = () => {
-      setPermissions(getStoredSectionPermissions());
-      setTags(getStoredTags());
-    };
-    refresh();
-    window.addEventListener("tags-updated", refresh);
-    return () => {
-      window.removeEventListener("tags-updated", refresh);
-    };
-  }, []);
-
-  const toggleTag = (id: string, tag: string) => {
-    setPermissions((prev) =>
-      prev.map((item) => {
-        if (item.id !== id) {
-          return item;
-        }
-        const hasTag = item.requiredTags.includes(tag);
-        const nextTags = hasTag
-          ? item.requiredTags.filter((existing) => existing !== tag)
-          : [...item.requiredTags, tag];
-        return { ...item, requiredTags: nextTags };
-      })
-    );
-  };
-
-  const handleSave = () => {
-    saveStoredSectionPermissions(permissions);
-    window.dispatchEvent(new Event("section-permissions-updated"));
-  };
-
-  const handleReset = () => {
-    resetStoredSectionPermissions();
-    setPermissions(getStoredSectionPermissions());
-    window.dispatchEvent(new Event("section-permissions-updated"));
-  };
-
-  const editingRow = defaultSectionPermissionRows.find((row) => row.id === editingId);
-  const editingPermissions = permissions.find((item) => item.id === editingId);
-  const activeTags = editingPermissions?.requiredTags ?? [];
-  const pageTags = tags.filter((tag) => tag.category !== "event");
-
-  return (
-    <div className={styles.card}>
-      <h3>섹션 권한</h3>
-      <p className={styles.muted}>페이지 내부 섹션의 접근 태그를 관리합니다.</p>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Section</th>
-            <th>ID</th>
-            <th>Required tags</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {defaultSectionPermissionRows.map((row) => {
-            const current = permissions.find((item) => item.id === row.id);
-            return (
-              <tr key={row.id}>
-                <td>{row.name}</td>
-                <td>{row.id}</td>
-                <td>
-                  {current?.requiredTags.length ? (
-                    <div className={styles.tagRow}>
-                      {current.requiredTags.map((tag) => (
-                        <span key={tag} className={styles.tag}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className={styles.muted}>없음</span>
-                  )}
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    className={styles.iconButton}
-                    aria-label={`${row.name} 권한 수정`}
-                    onClick={() => setEditingId(row.id)}
-                  >
-                    ✎
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className={styles.actionRow}>
-        <button type="button" className={styles.secondaryButton} onClick={handleReset}>
-          Reset
-        </button>
-        <button type="button" className={styles.primaryButton} onClick={handleSave}>
-          Save
-        </button>
-      </div>
-      {editingRow ? (
-        <div className={styles.modalOverlay} onClick={() => setEditingId(null)}>
-          <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <div>
-                <h3>{editingRow.name} 권한 편집</h3>
-                <p className={styles.muted}>{editingRow.id} 접근 태그를 선택하세요.</p>
               </div>
-            </div>
-            <div className={styles.modalBody}>
-              {pageTags.length === 0 ? (
-                <p className={styles.muted}>등록된 태그가 없습니다.</p>
-              ) : (
-                <div className={styles.checkboxGrid}>
-                  {pageTags.map((tag) => (
-                    <label key={tag.name} className={styles.checkboxItem}>
-                      <input
-                        type="checkbox"
-                        checked={activeTags.includes(tag.name)}
-                        onChange={() => toggleTag(editingRow.id, tag.name)}
-                      />
-                      <span>{tag.name}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className={styles.modalFooter}>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={() => setEditingId(null)}
-              >
-                닫기
-              </button>
-              <button type="button" className={styles.primaryButton} onClick={handleSave}>
-                저장
-              </button>
             </div>
           </div>
         </div>
@@ -2470,6 +1904,7 @@ function AdminCategoriesTab() {
           </div>
         </div>
       ) : null}
+
     </div>
   );
 }

@@ -43,11 +43,10 @@ export default function PortalLayout({
             <div>
               <div className={styles.label}>Portal</div>
               <Link href="/app/profile">Profile</Link>
-              <Link href="/app/portfolio">Portfolio</Link>
             </div>
             <div>
               <div className={styles.label}>Operations</div>
-              <Link href="/app/projects">Projects</Link>
+              <Link href="/projects">Projects</Link>
             </div>
             <div>
               <div className={styles.label}>Admin</div>

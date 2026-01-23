@@ -278,6 +278,83 @@
   composes: thumbPreview from "./admin.module.css";
 }
 
+.detailList {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: #111111;
+}
+
+.readBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(20, 20, 20, 0.15);
+}
+
+.readBadgeNew {
+  background: #f5f1ff;
+  color: #4c2ecf;
+  border-color: rgba(76, 46, 207, 0.25);
+}
+
+.readBadgeDone {
+  background: #f2f2f2;
+  color: #555555;
+}
+
+.detailButton {
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.detailButton:hover {
+  background: #f5f5f5;
+}
+
+.roleMatrix {
+  display: grid;
+  gap: 12px;
+}
+
+.roleMatrixHeader {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.roleMatrixRow {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(20, 20, 20, 0.08);
+}
+
+.roleMatrixScope {
+  font-size: 13px;
+  color: #111111;
+}
+
+.roleMatrixActions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px 12px;
+}
+
 .todoBadge {
   composes: todoBadge from "./admin.module.css";
 }

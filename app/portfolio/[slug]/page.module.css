@@ -2,6 +2,10 @@
   composes: badge from "../../public.module.css";
 }
 
+.button {
+  composes: button from "../../public.module.css";
+}
+
 .card {
   composes: card from "../../public.module.css";
 }
@@ -10,10 +14,18 @@
   composes: lead from "../../public.module.css";
 }
 
+.list {
+  composes: list from "../../public.module.css";
+}
+
 .meta {
   composes: meta from "../../public.module.css";
 }
 
 .section {
   composes: section from "../../public.module.css";
+}
+
+.split {
+  composes: split from "../../public.module.css";
 }

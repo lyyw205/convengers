@@ -12,15 +12,12 @@ const STORAGE_KEY = "convengers-page-permissions";
 const defaultPermissions: PagePermissionConfig[] = [
   { path: "/app", requiredTags: [] },
   { path: "/app/projects", requiredTags: [] },
-  { path: "/app/gallery", requiredTags: [] },
   { path: "/app/postings", requiredTags: [] },
-  { path: "/app/networkings", requiredTags: [] },
   { path: "/app/applications", requiredTags: [] },
   { path: "/app/profile", requiredTags: [] },
-  { path: "/app/portfolio", requiredTags: ["PORTFOLIO_VIEW"] },
-  { path: "/app/ratings", requiredTags: ["RATINGS_VIEW"] },
-  { path: "/app/billing", requiredTags: ["BILLING_VIEW"] },
-  { path: "/app/admin", requiredTags: ["ADMIN"] },
+  { path: "/app/ratings", requiredTags: ["scope:page:ratings"] },
+  { path: "/app/billing", requiredTags: ["scope:page:billing"] },
+  { path: "/app/admin", requiredTags: ["scope:page:admin"] },
 ];
 
 const isBrowser = () => typeof window !== "undefined";

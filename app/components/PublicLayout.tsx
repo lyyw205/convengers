@@ -3,12 +3,13 @@ import styles from "./public-layout.module.css";
 
 type PublicLayoutProps = {
   title?: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   align?: "left" | "center";
   titleClassName?: string;
   subtitleClassName?: string;
   heroClassName?: string;
   heroInnerClassName?: string;
+  heroBackground?: React.ReactNode;
   ctaSlot?: React.ReactNode;
   topSlot?: React.ReactNode;
   children: React.ReactNode;
@@ -22,6 +23,7 @@ export default function PublicLayout({
   subtitleClassName,
   heroClassName,
   heroInnerClassName,
+  heroBackground,
   ctaSlot,
   topSlot,
   children,
@@ -34,12 +36,15 @@ export default function PublicLayout({
             Convengers
           </Link>
           <nav className={styles.nav}>
-            <Link href="/company">Company</Link>
-            <Link href="/references">GALLERY</Link>
+            <Link href="/portfolio">Gallery</Link>
             <Link href="/projects">Projects</Link>
-            <Link href="/networking">NETWORKINGS</Link>
+            <Link href="/networking">Networkings</Link>
             <Link href="/contact" className={styles.cta}>
               Contact us
+            </Link>
+            <Link href="/app/admin">Admin</Link>
+            <Link href="/app/profile" className={styles.profileLink} aria-label="Profile">
+              <span className={styles.profileAvatar}>JP</span>
             </Link>
           </nav>
         </div>
@@ -53,6 +58,7 @@ export default function PublicLayout({
             align === "center" ? styles.heroCentered : ""
           } ${heroClassName ?? ""}`}
         >
+          {heroBackground}
           <div className={`${styles.heroInner} ${heroInnerClassName ?? ""}`}>
             {title && (
               <h1 className={titleClassName ?? styles.heroTitle}>{title}</h1>

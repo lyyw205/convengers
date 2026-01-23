@@ -19,7 +19,7 @@ type ReferenceSliderProps = {
 
 export default function ReferenceSlider({
   items,
-  hrefPrefix = "/references",
+  hrefPrefix = "/portfolio",
   classNames,
 }: ReferenceSliderProps) {
   const styles = classNames ?? baseStyles;
@@ -157,6 +157,7 @@ export default function ReferenceSlider({
             href={`${hrefPrefix}/${item.slug}`}
             className={styles.cardGroup}
             onClick={handleLinkClick}
+            scroll={false}
           >
             <article className={`${styles.card} ${styles.cardMedia}`}>
               <div

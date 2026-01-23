@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 
-type ProjectsLayoutProps = {
+type PortfolioLayoutProps = {
   children: ReactNode;
   modal: ReactNode;
 };
 
-export default function ProjectsLayout({ children, modal }: ProjectsLayoutProps) {
+export default function PortfolioLayout({ children, modal }: PortfolioLayoutProps) {
   return (
     <>
       {children}

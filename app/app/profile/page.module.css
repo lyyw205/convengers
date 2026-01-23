@@ -28,12 +28,125 @@
   composes: iconTeal from "../portal.module.css";
 }
 
+.input {
+  composes: input from "../portal.module.css";
+}
+
+.select {
+  composes: select from "../portal.module.css";
+}
+
 .muted {
   composes: muted from "../portal.module.css";
 }
 
 .profilePage {
   composes: profilePage from "../portal.module.css";
+}
+
+.profilePageShell {
+  composes: profilePage from "../portal.module.css";
+  background: #fafafa;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.profileCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0 28px;
+}
+
+.avatarLabel {
+  position: relative;
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+}
+
+.avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  background: #e8eefc;
+  color: #2a4bb8;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  text-transform: uppercase;
+}
+
+.avatarLabel:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarTitle {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.avatarInput {
+  display: none;
+}
+
+.profileInfo {
+  display: grid;
+  gap: 4px;
+}
+
+.profileName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.profileEmail {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.profileTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.profileTag {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f1f2f5;
+  color: #444444;
+  letter-spacing: 0.04em;
+}
+
+.uploadButton {
+  composes: uploadButton from "../../portfolio/portfolio.module.css";
 }
 
 .sectionHeader {
@@ -70,6 +183,284 @@
 
 .summaryValue {
   composes: summaryValue from "../portal.module.css";
+}
+
+.infoSection {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.portfolioGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.portfolioSection {
+  display: grid;
+  gap: 12px;
+}
+
+.portfolioHeaderRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.portfolioCard {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.portfolioFrame {
+  width: 100%;
+  background: #111111;
+  aspect-ratio: 16 / 9;
+}
+
+.portfolioFrame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.portfolioFrame a {
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  text-decoration: none;
+  padding: 20px;
+  text-align: center;
+}
+
+.portfolioMeta {
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.portfolioCategory {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.portfolioDescription {
+  font-size: 14px;
+  color: #1f1f1f;
+}
+
+.modalOverlay {
+  composes: modalOverlay from "../../public.module.css";
+}
+
+.modal {
+  composes: modalCard from "../../public.module.css";
+  max-width: 680px;
+}
+
+.modalHeader {
+  composes: modalHeader from "../../public.module.css";
+}
+
+.modalSubtitle {
+  composes: modalSubtitle from "../../public.module.css";
+}
+
+.modalBody {
+  composes: modalBody from "../../public.module.css";
+}
+
+.modalLabel {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.modalInput {
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.modalTextarea {
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.noticeBox {
+  background: #f5f4ff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(101, 88, 245, 0.15);
+}
+
+.noticeTitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.noticeText {
+  margin: 0;
+  color: #3a355f;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.primaryButton {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: #5d4bff;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondaryButton {
+  border: 1px solid rgba(20, 20, 20, 0.2);
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: #ffffff;
+  color: #111111;
+  cursor: pointer;
+}
+
+.infoForm {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 16px;
+  width: 100%;
+}
+
+.infoField {
+  display: grid;
+  gap: 6px;
+}
+
+.infoLabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.careerForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+  width: 100%;
+  max-width: 640px;
+}
+
+.toggleGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.toggleRow {
+  display: flex;
+  gap: 10px;
+}
+
+.toggleButton {
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.toggleActive {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.skillBlock {
+  display: grid;
+  gap: 10px;
+}
+
+.skillHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addSkillButton {
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.skillRows {
+  display: grid;
+  gap: 10px;
+  max-width: 640px;
+}
+
+.skillRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.infoTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.infoTabButton {
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  position: relative;
+}
+
+.infoTabButton::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -9px;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+}
+
+.infoTabActive {
+  color: #111111;
+  font-weight: 600;
+}
+
+.infoTabActive::after {
+  background: #111111;
 }
 
 .list {
@@ -122,6 +513,14 @@
 
 .table {
   composes: table from "../portal.module.css";
+}
+
+.infoTable {
+  width: 100%;
+}
+
+.infoValue {
+  text-align: right;
 }
 
 .timelineBadge {

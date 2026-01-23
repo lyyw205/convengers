@@ -13,7 +13,7 @@ export default function TermsPage() {
           <div className={styles.badge}>Agreement</div>
           <ul className={styles.list}>
             <li>Project engagement requires a signed statement of work.</li>
-            <li>Reference publication needs mutual approval.</li>
+            <li>Portfolio publication needs mutual approval.</li>
             <li>Payment terms are defined per project and partner tier.</li>
           </ul>
         </div>

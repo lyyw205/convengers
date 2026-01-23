@@ -6,11 +6,22 @@ export type SectionPermissionConfig = {
 const STORAGE_KEY = "convengers-section-permissions";
 
 const defaultPermissions: SectionPermissionConfig[] = [
-  { id: "/app/projects:recruiting", requiredTags: ["ADMIN"] },
-  { id: "/app/projects:portfolio", requiredTags: [] },
+  { id: "/app/projects:recruiting", requiredTags: ["scope:section:projects:recruiting"] },
 ];
 
 const isBrowser = () => typeof window !== "undefined";
+
+const normalizePermissions = (permissions: SectionPermissionConfig[]) =>
+  permissions.map((permission) => {
+    const hasLegacyTag = permission.requiredTags.some((tag) => !tag.startsWith("scope:"));
+    if (!hasLegacyTag) {
+      return permission;
+    }
+    return {
+      ...permission,
+      requiredTags: ["scope:section:projects:recruiting"],
+    };
+  });
 
 export const getStoredSectionPermissions = (): SectionPermissionConfig[] => {
   if (!isBrowser()) {
@@ -25,7 +36,11 @@ export const getStoredSectionPermissions = (): SectionPermissionConfig[] => {
     if (!Array.isArray(parsed)) {
       return defaultPermissions;
     }
-    return parsed;
+    const normalized = normalizePermissions(parsed);
+    if (JSON.stringify(parsed) !== JSON.stringify(normalized)) {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+    }
+    return normalized;
   } catch {
     return defaultPermissions;
   }

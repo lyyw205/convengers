@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Convengers",
-  description: "Partner network for high-trust product teams and public references.",
+  description: "Partner network for high-trust product teams and public portfolios.",
 };
 
 export default function RootLayout({

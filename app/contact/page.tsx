@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ContactLayout from "./ContactLayout";
 import styles from "./page.module.css";
+import { saveContactSubmission } from "../lib/contact-store";
 
 const tabs = [
   {
@@ -69,6 +70,39 @@ const tabs = [
 export default function ContactPage() {
   const [activeTabId, setActiveTabId] = useState("estimate");
   const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[2];
+  const [formValues, setFormValues] = useState<Record<string, string>>({});
+
+  const fieldLabels = useMemo(() => {
+    const map = new Map<string, string>();
+    activeTab.formFields.forEach((field) => {
+      if (field.type === "select") {
+        map.set(field.name, field.options[0] ?? field.name);
+        return;
+      }
+      map.set(field.name, field.placeholder);
+    });
+    return map;
+  }, [activeTab]);
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTabId(tabId);
+    setFormValues({});
+  };
+
+  const handleSubmit = () => {
+    const fields = activeTab.formFields.map((field) => ({
+      label: fieldLabels.get(field.name) ?? field.name,
+      value: formValues[field.name] ?? "",
+    }));
+    saveContactSubmission({
+      id: `${activeTab.id}-${Date.now()}`,
+      tabId: activeTab.id,
+      tabLabel: activeTab.label,
+      submittedAt: new Date().toISOString(),
+      fields,
+    });
+    setFormValues({});
+  };
 
   return (
     <ContactLayout>
@@ -85,7 +119,7 @@ export default function ContactPage() {
                 className={`${styles.tab} ${
                   activeTabId === tab.id ? styles.tabActive : ""
                 }`}
-                onClick={() => setActiveTabId(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
               >
                 {tab.label}
               </button>
@@ -107,7 +141,13 @@ export default function ContactPage() {
               </div>
             </div>
             <div className={styles.divider} aria-hidden="true" />
-            <form className={styles.form}>
+            <form
+              className={styles.form}
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSubmit();
+              }}
+            >
               {activeTab.formFields.map((field) => {
                 if (field.type === "input") {
                   return (
@@ -115,13 +155,30 @@ export default function ContactPage() {
                       key={field.name}
                       className={styles.input}
                       placeholder={field.placeholder}
+                      value={formValues[field.name] ?? ""}
+                      onChange={(event) =>
+                        setFormValues((prev) => ({
+                          ...prev,
+                          [field.name]: event.target.value,
+                        }))
+                      }
                     />
                   );
                 }
 
                 if (field.type === "select") {
                   return (
-                    <select key={field.name} className={styles.select}>
+                    <select
+                      key={field.name}
+                      className={styles.select}
+                      value={formValues[field.name] ?? field.options[0]}
+                      onChange={(event) =>
+                        setFormValues((prev) => ({
+                          ...prev,
+                          [field.name]: event.target.value,
+                        }))
+                      }
+                    >
                       {field.options.map((option) => (
                         <option key={option}>{option}</option>
                       ))}
@@ -134,10 +191,17 @@ export default function ContactPage() {
                     key={field.name}
                     className={styles.textarea}
                     placeholder={field.placeholder}
+                    value={formValues[field.name] ?? ""}
+                    onChange={(event) =>
+                      setFormValues((prev) => ({
+                        ...prev,
+                        [field.name]: event.target.value,
+                      }))
+                    }
                   />
                 );
               })}
-              <button className={`${styles.button} ${styles.buttonPrimary}`} type="button">
+              <button className={`${styles.button} ${styles.buttonPrimary}`} type="submit">
                 {activeTab.buttonLabel}
               </button>
             </form>

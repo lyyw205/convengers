@@ -6,12 +6,13 @@ export type CurrentUser = {
 export const getMockUser = (): CurrentUser => ({
   isAuthenticated: true,
   tags: [
-    "PROJECT_VIEW",
-    "POSTING_VIEW",
-    "NETWORKINGS_VIEW",
-    "COMMUNITY_VIEW",
-    "PROFILE_VIEW",
-    "ADMIN",
+    "scope:page:projects",
+    "scope:page:postings",
+    "scope:page:networkings",
+    "scope:page:applications",
+    "scope:page:profile",
+    "scope:page:admin",
+    "scope:section:projects:recruiting",
   ],
 });
 

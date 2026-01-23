@@ -1,12 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
 import { getStoredProjects, seedStoredProjects } from "../../lib/project-store";
 import { addApplicant } from "../../lib/applicant-store";
-import { referenceItems } from "../../lib/sample-data";
-import { getStoredCategories, seedStoredCategories } from "../../lib/category-store";
+import { seedStoredCategories } from "../../lib/category-store";
 import { getMockUser, hasAllTags } from "../../lib/access-control";
 import { getStoredSectionPermissions } from "../../lib/section-permission-store";
 
@@ -40,11 +38,10 @@ export default function ProjectStatusPage() {
   const [activeQuickFilters, setActiveQuickFilters] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [draftCategories, setDraftCategories] = useState<string[]>([]);
-  const [storedProjects, setStoredProjects] = useState(() => getStoredProjects());
-  const [projectCategories, setProjectCategories] = useState<string[]>(["전체"]);
+  const [storedProjects, setStoredProjects] = useState<StoredProject[]>([]);
   const [activePublicCategory, setActivePublicCategory] = useState("전체");
-  const [publicPage, setPublicPage] = useState(1);
-  const publicPageSize = 9;
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [sectionPermissions, setSectionPermissions] = useState(
     () => getStoredSectionPermissions()
   );
@@ -57,10 +54,6 @@ export default function ProjectStatusPage() {
   }, []);
   useEffect(() => {
     seedStoredCategories();
-    const stored = getStoredCategories()
-      .filter((category) => category.group === "projects")
-      .map((category) => category.name);
-    setProjectCategories(["전체", ...stored]);
   }, []);
   useEffect(() => {
     const refresh = () => setSectionPermissions(getStoredSectionPermissions());
@@ -71,37 +64,36 @@ export default function ProjectStatusPage() {
       window.removeEventListener("storage", refresh);
     };
   }, []);
-  useEffect(() => {
-    if (!projectCategories.includes(activePublicCategory)) {
-      setActivePublicCategory("전체");
-    }
-  }, [projectCategories, activePublicCategory]);
-
   const filteredProjects =
     selectedCategories.length === 0
       ? storedProjects
       : storedProjects.filter((item) =>
           item.category ? selectedCategories.includes(item.category) : false
         );
-  const filteredReferences = useMemo(
-    () =>
+  const publicCategories = useMemo(() => {
+    const unique = new Set<string>();
+    storedProjects.forEach((project) => {
+      if (project.category) {
+        unique.add(project.category);
+      }
+    });
+    return ["전체", ...Array.from(unique)];
+  }, [storedProjects]);
+  const filteredPublicProjects = useMemo(() => {
+    const base =
       activePublicCategory === "전체"
-        ? referenceItems
-        : referenceItems.filter((item) => item.category === activePublicCategory),
-    [activePublicCategory]
-  );
-  const totalPublicPages = Math.max(
-    1,
-    Math.ceil(filteredReferences.length / publicPageSize)
-  );
-  const pagedReferences = useMemo(() => {
-    const start = (publicPage - 1) * publicPageSize;
-    return filteredReferences.slice(start, start + publicPageSize);
-  }, [filteredReferences, publicPage, publicPageSize]);
-
-  useEffect(() => {
-    setPublicPage(1);
-  }, [activePublicCategory]);
+        ? storedProjects
+        : storedProjects.filter((project) => project.category === activePublicCategory);
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) {
+      return base;
+    }
+    return base.filter(
+      (project) =>
+        project.title.toLowerCase().includes(term) ||
+        (project.summary ?? "").toLowerCase().includes(term)
+    );
+  }, [storedProjects, activePublicCategory, searchTerm]);
 
   const mockUser = getMockUser();
   const sectionMap = useMemo(
@@ -150,6 +142,16 @@ export default function ProjectStatusPage() {
   const closeModal = () => {
     setSelected(null);
   };
+
+  useEffect(() => {
+    const hasModal = Boolean(selected);
+    document.documentElement.classList.toggle("no-scroll", hasModal);
+    document.body.classList.toggle("no-scroll", hasModal);
+    return () => {
+      document.documentElement.classList.remove("no-scroll");
+      document.body.classList.remove("no-scroll");
+    };
+  }, [selected]);
 
   return (
     <div className={styles.statusPage}>
@@ -249,15 +251,6 @@ export default function ProjectStatusPage() {
             filteredProjects.map((item) => (
               <div key={item.id} className={styles.statusRow}>
                 <div className={styles.statusBody}>
-                  <div className={styles.statusMetaRow}>
-                    <div className={styles.statusBadgeRow}>
-                      <span className={styles.statusBadge}>{item.badge ?? "모집중"}</span>
-                      <span className={styles.statusDday}>{item.dday ?? "D-?"}</span>
-                    </div>
-                    {item.category ? (
-                      <span className={styles.statusCategory}>{item.category}</span>
-                    ) : null}
-                  </div>
                   <button
                     className={styles.statusTitleButton}
                     type="button"
@@ -265,28 +258,40 @@ export default function ProjectStatusPage() {
                   >
                     {item.title}
                   </button>
-                  <div className={styles.statusSplit}>
-                    <span>
-                      예상 견적:{" "}
-                      <strong className={styles.statusBudget}>{item.budget ?? "협의"}</strong>
-                    </span>
-                    <span className={styles.dot}>·</span>
-                    <span>
-                      프로젝트 기간:{" "}
-                      <strong className={styles.statusBudget}>
-                        {item.duration ?? "기간 미정"}
-                      </strong>
-                    </span>
-                  </div>
-                  <div className={styles.statusMetaRow}>
+                  <div className={styles.statusSkillRow}>
+                    {item.category ? (
+                      <span className={styles.statusCategoryTag}>{item.category}</span>
+                    ) : null}
+                    {item.category ? (
+                      <span className={styles.statusDivider} aria-hidden="true" />
+                    ) : null}
                     <div className={styles.statusSkills}>
                       {(item.skills ?? []).map((skill: string) => (
                         <span key={skill} className={styles.statusSkill}>
-                          {skill}
+                          #{skill}
                         </span>
                       ))}
                     </div>
-                    <span className={styles.statusDate}>{item.postedAt ?? "등록일 미정"}</span>
+                  </div>
+                  <div className={styles.statusInfo}>
+                    <span className={styles.statusInfoItem}>
+                      예상 금액 : {item.budget ?? "협의"}
+                      {item.budget ? " 월 단위" : ""}
+                    </span>
+                    <span className={styles.statusInfoItem}>
+                      시작 예정일 : {item.deadline ?? "협의 가능"}
+                    </span>
+                    <span className={styles.statusInfoItem}>
+                      예상 기간 : {item.duration ?? "기간 미정"}
+                    </span>
+                  </div>
+                  <div className={styles.statusTags}>
+                    {item.workType ? (
+                      <span className={styles.statusTag}>{item.workType}</span>
+                    ) : null}
+                    <span className={styles.statusTag}>{item.badge ?? "모집중"}</span>
+                    <span className={styles.statusTag}>NEW</span>
+                    <span className={styles.statusTag}>{item.dday ?? "D-?"}</span>
                   </div>
                 </div>
               </div>
@@ -298,20 +303,19 @@ export default function ProjectStatusPage() {
         </section>
       )}
 
-      {canViewSection("/app/projects:portfolio") && (
-        <section className={styles.publicSection}>
+      <section className={styles.publicSection}>
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderText}>
             <h2 className={styles.sectionTitle}>Project Portfolio</h2>
             <p className={styles.sectionSubtitle}>
-              컨벤저스에서 진행한 프로젝트입니다
+              컨벤저스에서 진행한 프로젝트입니다.
             </p>
           </div>
         </div>
         <div className={styles.sectionDivider} />
         <div className={styles.publicFilterBar}>
           <div className={styles.publicFilterRow}>
-          {projectCategories.map((category) => (
+            {publicCategories.map((category) => (
               <button
                 key={category}
                 type="button"
@@ -336,68 +340,51 @@ export default function ProjectStatusPage() {
               type="search"
               placeholder="프로젝트 검색"
               aria-label="프로젝트 검색"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  setSearchTerm(searchInput);
+                }
+              }}
             />
           </div>
         </div>
         <div className={styles.publicGrid}>
-          {pagedReferences.map((item) => (
-            <article key={item.slug} className={`${styles.publicCard} ${styles.publicCardMedia}`}>
+          {filteredPublicProjects.map((project) => (
+            <article
+              key={project.id}
+              className={`${styles.publicCard} ${styles.publicCardMedia}`}
+              role="button"
+              tabIndex={0}
+              onClick={() => openModal(project)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  openModal(project);
+                }
+              }}
+            >
               <div
                 className={styles.publicThumb}
-                style={item.image ? { backgroundImage: `url(${item.image})` } : undefined}
+                style={project.image ? { backgroundImage: `url(${project.image})` } : undefined}
               >
-                <span className={styles.publicThumbText}>{item.title}</span>
+                <span className={styles.publicThumbText}>{project.title}</span>
               </div>
               <div className={styles.publicCardContent}>
-                <div className={styles.publicBadge}>{item.category}</div>
-                <h3 className={styles.publicCardTitle}>{item.title}</h3>
-                <p className={styles.publicLead}>{item.summary}</p>
+                <div className={styles.publicBadge}>{project.category ?? "Project"}</div>
+                <h3 className={styles.publicCardTitle}>{project.title}</h3>
+                <p className={styles.publicLead}>{project.summary}</p>
                 <div className={styles.publicMeta}>
-                  {item.year} · {item.stack.join(", ")}
+                  {project.deadline ?? "협의"} · {project.techStack ?? "Tech stack 협의"}
                 </div>
-                <Link
-                  className={styles.publicCardLink}
-                  href={`/references/${item.slug}`}
-                  scroll={false}
-                >
-                  View reference →
-                </Link>
               </div>
             </article>
           ))}
         </div>
-        {filteredReferences.length === 0 && (
-          <p className={styles.publicEmptyState}>
-            해당 카테고리의 레퍼런스가 없습니다.
-          </p>
+        {filteredPublicProjects.length === 0 && (
+          <p className={styles.publicEmptyState}>현재 등록된 프로젝트가 없습니다.</p>
         )}
-        {filteredReferences.length > publicPageSize && (
-          <div className={styles.publicPagination}>
-            <button
-              type="button"
-              className={styles.publicPageButton}
-              onClick={() => setPublicPage((prev) => Math.max(1, prev - 1))}
-              disabled={publicPage === 1}
-            >
-              이전
-            </button>
-          <div className={styles.publicPageInfo}>
-            {publicPage} / {totalPublicPages}
-          </div>
-          <button
-            type="button"
-              className={styles.publicPageButton}
-              onClick={() =>
-                setPublicPage((prev) => Math.min(totalPublicPages, prev + 1))
-              }
-              disabled={publicPage === totalPublicPages}
-            >
-            다음
-          </button>
-        </div>
-        )}
-        </section>
-      )}
+      </section>
 
       {selected && (
         <div className={styles.modalOverlay} onClick={closeModal}>
@@ -410,86 +397,150 @@ export default function ProjectStatusPage() {
                 <h3 className={styles.sectionTitle}>{selected.title}</h3>
                 <p className={styles.sectionSubtitle}>프로젝트 상세 정보</p>
               </div>
-              <button className={styles.closeButton} type="button" onClick={closeModal}>
-                닫기
-              </button>
+              <div className={styles.modalHeaderActions}>
+                <button className={styles.bookmarkIconButton} type="button" aria-label="북마크">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M12 20.5l-7.2-7a4.6 4.6 0 0 1 6.5-6.5L12 7.8l.7-.8a4.6 4.6 0 0 1 6.5 6.5z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button className={styles.closeButton} type="button" onClick={closeModal}>
+                  닫기
+                </button>
+              </div>
             </div>
             <div className={`${styles.modalBody} ${styles.projectModalBody}`}>
-              <div
-                className={`${styles.modalThumb} ${styles.projectModalThumb}`}
-                style={{
-                  backgroundImage: `url(${
-                    selected.thumbnail || selected.image || "/refs/ref-01.svg"
-                  })`,
-                }}
-              />
-              <div className={`${styles.modalCopy} ${styles.projectModalCopy}`}>
-                {selected.summary ? (
-                  <p className={styles.projectSummary}>{selected.summary}</p>
-                ) : null}
-                {(() => {
-                  const details: { label: string; value: string }[] = [];
-                  const placeholders = new Set(["", "미정", "기간 미정", "협의"]);
-                  const pushDetail = (label: string, value?: string) => {
-                    if (!value) {
-                      return;
-                    }
-                    const trimmed = value.trim();
-                    if (!trimmed || placeholders.has(trimmed)) {
-                      return;
-                    }
-                    details.push({ label, value: trimmed });
-                  };
+              <div className={styles.projectDetail}>
+                <h4 className={styles.projectDetailTitle}>
+                  [상주] [신용산]B2B SaaS 플랫폼(재고/물류) UI/UX 디자인 (상주) - Linguistic
+                  Ability, SaaS
+                </h4>
 
-                  pushDetail("카테고리", selected.category);
-                  pushDetail("예산", selected.budget);
-                  pushDetail("기간", selected.duration);
-                  pushDetail("마감일", selected.deadline);
-                  pushDetail("근무 형태", selected.workType);
-                  pushDetail("지역", selected.location);
-                  pushDetail("타겟 사용자", selected.targetUsers);
-                  pushDetail("핵심 기능", selected.features);
-                  pushDetail(
-                    "기술 스택",
-                    selected.techStack || selected.skills?.join(", ")
-                  );
-                  pushDetail("모집 포지션", selected.roles);
-                  pushDetail("담당자", selected.contactEmail);
+                <div className={styles.projectTagRow}>
+                  <span className={styles.projectTag}>상주</span>
+                  <span className={styles.projectTag}>모집중</span>
+                  <span className={styles.projectTag}>NEW</span>
+                </div>
+                <div className={styles.projectDivider} />
+                <div className={styles.projectInfoGrid}>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>예상 금액</span>
+                    <span className={styles.projectInfoValue}>
+                      400만원 ~ 450만원
+                      <br />
+                      월 단위
+                    </span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>시작 예정일</span>
+                    <span className={styles.projectInfoValue}>
+                      2026-02-09
+                      <br />
+                      협의 가능
+                    </span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>직군/직무</span>
+                    <span className={styles.projectInfoValue}>디자인 &gt; UX 디자이너</span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>예상 기간</span>
+                    <span className={styles.projectInfoValue}>6개월</span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>근무 위치</span>
+                    <span className={styles.projectInfoValue}>신용산/이촌역 부근</span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>근무 시간</span>
+                    <span className={styles.projectInfoValue}>9시 ~ 18시</span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>근무 시간 조율</span>
+                    <span className={styles.projectInfoValue}>조율 불가능</span>
+                  </div>
+                  <div className={styles.projectInfoItem}>
+                    <span className={styles.projectInfoLabel}>월차 제공</span>
+                    <span className={styles.projectInfoValue}>미제공</span>
+                  </div>
+                </div>
 
-                  if (details.length === 0) {
-                    return null;
-                  }
+                <div className={styles.projectSkills}>
+                  {[
+                    "Linguistic Ability",
+                    "SaaS",
+                    "UX 디자인",
+                    "UI 디자인",
+                    "Figma",
+                  ].map((skill) => (
+                    <span key={skill} className={styles.projectSkill}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
 
-                  return (
-                    <div className={styles.projectDetailGrid}>
-                      {details.map((item) => (
-                        <div key={item.label} className={styles.projectDetailRow}>
-                          <span className={styles.projectDetailLabel}>{item.label}</span>
-                          <span className={styles.projectDetailValue}>{item.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  );
-                })()}
-                {selected.goals ? (
-                  <p className={styles.projectGoals}>
-                    <span>목표</span>
-                    <span>{selected.goals}</span>
+                <div className={styles.projectDivider} />
+
+                <div className={styles.projectSection}>
+                  <div className={styles.projectSectionTitle}>프로젝트 세부 내용</div>
+                  <div className={styles.projectSectionSubtitle}>
+                    현재 프로젝트 진행 상황
+                  </div>
+                  <p className={styles.projectParagraph}>
+                    화학물질 재고관리 솔루션의 사용자 경험(UX)을 개선하고, 신규 기능(주문/배송
+                    등)에 대한 UI를 설계합니다. 단순 웹사이트가 아닌 복잡한 데이터를 시각화하는
+                    B2B SaaS 툴을 디자인합니다.
                   </p>
-                ) : null}
-                <button
-                  className={styles.projectCta}
-                  type="button"
-                  onClick={() => {
-                    addApplicant({
-                      projectId: selected.id,
-                      name: "Demo Member",
-                      email: "member@convengers.studio",
-                    });
-                  }}
-                >
-                  지원하기
-                </button>
+                  <ul className={styles.projectList}>
+                    <li>투입시기: 2월 ~ 3월</li>
+                    <li>근무기간: 6개월(연장가능)</li>
+                  </ul>
+                </div>
+
+                <div className={styles.projectSection}>
+                  <div className={styles.projectSectionTitle}>주요 담당 업무</div>
+                  <ul className={styles.projectList}>
+                    <li>기능 정의서를 바탕으로 한 UI/UX 화면 설계 및 디자인 (Web/Mobile)</li>
+                    <li>
+                      개발팀(FE) 전달을 위한 Figma 디자인 시스템 가이드 제작 및 핸드오프
+                    </li>
+                    <li>복잡한 재고/물류 데이터를 직관적으로 표현하는 대시보드 UI 구성</li>
+                  </ul>
+                </div>
+
+                <div className={styles.projectSection}>
+                  <div className={styles.projectSectionTitle}>세부 업무범위</div>
+                  <div className={styles.projectSectionSubtitle}>[필수]</div>
+                  <ul className={styles.projectList}>
+                    <li>UI/UX 디자인 경력 5년 이상</li>
+                    <li>Figma를 활용한 컴포넌트 관리 및 프로토타이핑 능숙자</li>
+                    <li>개발자 및 기획자와 원활한 커뮤니케이션이 가능하신 분</li>
+                  </ul>
+                </div>
+
+                <div className={styles.projectSection}>
+                  <div className={styles.projectSectionTitle}>기타 전달사항 또는 우대사항</div>
+                  <div className={styles.projectSectionSubtitle}>[우대]</div>
+                  <ul className={styles.projectList}>
+                    <li>B2B SaaS, 어드민(Admin), ERP, 물류/재고관리 시스템 디자인 경험</li>
+                    <li>데이터 시각화(차트/그래프) 디자인 경험이 풍부하신 분</li>
+                    <li>* 개인장비 지참 필수</li>
+                  </ul>
+                </div>
+
+                <div className={styles.projectSection}>
+                  <div className={styles.projectSectionTitle}>필요인력 및 희망 연차</div>
+                  <ul className={styles.projectList}>
+                    <li>필요 인력 : 1명</li>
+                    <li>희망 연차 : 5 ~ 12년</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

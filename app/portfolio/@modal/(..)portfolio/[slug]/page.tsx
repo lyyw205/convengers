@@ -46,34 +46,17 @@ export default async function PortfolioModalPage({ params }: PortfolioModalPageP
             </div>
             <p className={styles.lead}>{item.summary}</p>
             <div className={styles.modalCopy}>
-              <em>{`{Firebase Apple Open Source Development
-This repository contains the source code for all Apple platform Firebase SDKs except FirebaseAnalytics.
-
-Firebase is an app development platform with tools to help you build, grow, and monetize your app. More information about Firebase can be found on the official Firebase website.
-
-Installation
-See the subsections below for details about the different installation methods. Where available, it's recommended to install any libraries with a Swift suffix to get the best experience when writing your app in Swift.
-
-Standard pod install
-Swift Package Manager
-Installing from the GitHub repo
-Experimental Carthage
-Standard pod install
-For instructions on the standard pod install, visit: https://firebase.google.com/docs/ios/setup.
-
-Swift Package Manager
-Instructions for Swift Package Manager support can be found in the SwiftPackageManager.md Markdown file.
-
-Installing from GitHub
-These instructions can be used to access the Firebase repo at other branches, tags, or commits.
-
-Background
-See the Podfile Syntax Reference for instructions and options about overriding pod source locations.
-
-Accessing Firebase Source Snapshots
-All official releases are tagged in this repo and available via CocoaPods. To access a local source snapshot or unreleased branch, use Podfile directives like the following:
-
-To access FirebaseFirestore via a branch:}`}</em>
+              <em>{`{포트폴리오는 외부 링크로 제출됩니다.}`}</em>
+            </div>
+            <div className={styles.modalMeta}>
+              <em>{`{Portfolio link}`}</em>{" "}
+              {item.link ? (
+                <a href={item.link} target="_blank" rel="noreferrer">
+                  {item.link}
+                </a>
+              ) : (
+                "미제출"
+              )}
             </div>
             <div className={styles.modalMeta}>
               <em>{`{Tech stack}`}</em> {item.stack.join(", ")}

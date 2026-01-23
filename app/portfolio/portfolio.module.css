@@ -12,6 +12,15 @@
   position: relative;
   z-index: 1;
   margin-top: 24px;
+  margin-bottom: 20px;
+}
+
+.filterActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .filterDivider {
@@ -24,6 +33,26 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.uploadButton {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: #7a57f7;
+  color: #ffffff;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadButton:hover {
+  background: #6a46e6;
 }
 
 .searchField {

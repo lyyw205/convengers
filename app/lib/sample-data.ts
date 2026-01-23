@@ -1,7 +1,7 @@
 export const referenceItems = [
 {
     slug: "ref-3x4-05",
-    title: "Reference 3:4 05",
+    title: "Portfolio 3:4 05",
     category: "AI Agent",
     summary: "3:4 더미 이미지 샘플입니다.",
     year: "2025",
@@ -12,7 +12,7 @@ export const referenceItems = [
 
   {
     slug: "ref-4x3-01",
-    title: "Reference 4:3 01",
+    title: "Portfolio 4:3 01",
     category: "AI Coding",
     summary: "4:3 더미 이미지 샘플입니다.",
     year: "2025",
@@ -23,7 +23,7 @@ export const referenceItems = [
 
   {
     slug: "ref-9x16-05",
-    title: "Reference 9:16 05",
+    title: "Portfolio 9:16 05",
     category: "AI Branding",
     summary: "9:16 더미 이미지 샘플입니다.",
     year: "2025",
@@ -34,7 +34,7 @@ export const referenceItems = [
 
   {
     slug: "ref-16x9-05",
-    title: "Reference 16:9 05",
+    title: "Portfolio 16:9 05",
     category: "AI Creator",
     summary: "16:9 더미 이미지 샘플입니다.",
     year: "2025",
@@ -45,7 +45,7 @@ export const referenceItems = [
 
   {
     slug: "ref-4x3-05",
-    title: "Reference 4:3 05",
+    title: "Portfolio 4:3 05",
     category: "AI Coding",
     summary: "4:3 더미 이미지 샘플입니다.",
     year: "2025",
@@ -56,7 +56,7 @@ export const referenceItems = [
 
   {
     slug: "ref-9x16-04",
-    title: "Reference 9:16 04",
+    title: "Portfolio 9:16 04",
     category: "AI Branding",
     summary: "9:16 더미 이미지 샘플입니다.",
     year: "2025",
@@ -67,7 +67,7 @@ export const referenceItems = [
 
   {
     slug: "ref-3x4-01",
-    title: "Reference 3:4 01",
+    title: "Portfolio 3:4 01",
     category: "AI Agent",
     summary: "3:4 더미 이미지 샘플입니다.",
     year: "2025",
@@ -78,7 +78,7 @@ export const referenceItems = [
 
   {
     slug: "ref-3x4-04",
-    title: "Reference 3:4 04",
+    title: "Portfolio 3:4 04",
     category: "AI Agent",
     summary: "3:4 더미 이미지 샘플입니다.",
     year: "2025",
@@ -89,7 +89,7 @@ export const referenceItems = [
 
   {
     slug: "ref-4x3-02",
-    title: "Reference 4:3 02",
+    title: "Portfolio 4:3 02",
     category: "AI Coding",
     summary: "4:3 더미 이미지 샘플입니다.",
     year: "2025",
@@ -100,7 +100,7 @@ export const referenceItems = [
 
   {
     slug: "ref-9x16-03",
-    title: "Reference 9:16 03",
+    title: "Portfolio 9:16 03",
     category: "AI Branding",
     summary: "9:16 더미 이미지 샘플입니다.",
     year: "2025",
@@ -111,7 +111,7 @@ export const referenceItems = [
 
   {
     slug: "ref-3x4-03",
-    title: "Reference 3:4 03",
+    title: "Portfolio 3:4 03",
     category: "AI Agent",
     summary: "3:4 더미 이미지 샘플입니다.",
     year: "2025",
@@ -122,7 +122,7 @@ export const referenceItems = [
 
   {
     slug: "ref-9x16-01",
-    title: "Reference 9:16 01",
+    title: "Portfolio 9:16 01",
     category: "AI Branding",
     summary: "9:16 더미 이미지 샘플입니다.",
     year: "2025",
@@ -133,7 +133,7 @@ export const referenceItems = [
 
   {
     slug: "ref-16x9-02",
-    title: "Reference 16:9 02",
+    title: "Portfolio 16:9 02",
     category: "AI Creator",
     summary: "16:9 더미 이미지 샘플입니다.",
     year: "2025",
@@ -144,7 +144,7 @@ export const referenceItems = [
 
   {
     slug: "ref-9x16-02",
-    title: "Reference 9:16 02",
+    title: "Portfolio 9:16 02",
     category: "AI Branding",
     summary: "9:16 더미 이미지 샘플입니다.",
     year: "2025",
@@ -155,7 +155,7 @@ export const referenceItems = [
 
   {
     slug: "ref-16x9-03",
-    title: "Reference 16:9 03",
+    title: "Portfolio 16:9 03",
     category: "AI Creator",
     summary: "16:9 더미 이미지 샘플입니다.",
     year: "2025",
@@ -166,7 +166,7 @@ export const referenceItems = [
 
   {
     slug: "ref-3x4-02",
-    title: "Reference 3:4 02",
+    title: "Portfolio 3:4 02",
     category: "AI Agent",
     summary: "3:4 더미 이미지 샘플입니다.",
     year: "2025",
@@ -177,7 +177,7 @@ export const referenceItems = [
 
   {
     slug: "ref-4x3-03",
-    title: "Reference 4:3 03",
+    title: "Portfolio 4:3 03",
     category: "AI Coding",
     summary: "4:3 더미 이미지 샘플입니다.",
     year: "2025",
@@ -188,7 +188,7 @@ export const referenceItems = [
 
   {
     slug: "ref-4x3-04",
-    title: "Reference 4:3 04",
+    title: "Portfolio 4:3 04",
     category: "AI Coding",
     summary: "4:3 더미 이미지 샘플입니다.",
     year: "2025",
@@ -199,7 +199,7 @@ export const referenceItems = [
 
   {
     slug: "ref-16x9-01",
-    title: "Reference 16:9 01",
+    title: "Portfolio 16:9 01",
     category: "AI Creator",
     summary: "16:9 더미 이미지 샘플입니다.",
     year: "2025",
@@ -210,7 +210,7 @@ export const referenceItems = [
 
   {
     slug: "ref-16x9-04",
-    title: "Reference 16:9 04",
+    title: "Portfolio 16:9 04",
     category: "AI Creator",
     summary: "16:9 더미 이미지 샘플입니다.",
     year: "2025",
@@ -220,7 +220,10 @@ export const referenceItems = [
   },
 ];
 
-export const portfolioItems = referenceItems.map((item) => ({ ...item }));
+export const portfolioItems = referenceItems.map((item) => ({
+  ...item,
+  link: `https://portfolio.example/${item.slug}`,
+}));
 
 export const projectItems = [
   {

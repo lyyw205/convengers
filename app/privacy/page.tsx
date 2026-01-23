@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           <ul className={styles.list}>
             <li>We collect contact info only for project intake and follow-up.</li>
             <li>Partner performance data stays inside the portal.</li>
-            <li>Public references are approved before publishing.</li>
+            <li>Public portfolios are approved before publishing.</li>
           </ul>
         </div>
       </section>
