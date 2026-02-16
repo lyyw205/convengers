@@ -1,0 +1,31 @@
+# HANDOFF
+
+## Current [1771237045]
+- **Task**: "SHOW ME THE AI" 데모데이 랜딩 페이지 구현 및 디자인/카피 개선
+- **Completed**:
+  - Next.js App Router 기반 데모데이 랜딩 페이지 전체 구현 (page.tsx + CSS Modules)
+  - 전체 다크 프리미엄 테마 적용 (startup.asan-nanum.org 톤앤매너)
+  - Hero 카피 리라이트 (규모감 + 타겟 관점 + 한정성)
+  - S2 키워드 "도약/Next Chapter" + 서브카피 정리
+  - Points Headline "솔프클럽의 데모데이는 다릅니다" 추가 (블루 강조)
+  - Point 1~4 카피 전체 개선 (실시간 투표, 투자 쇼케이스, 혜택 For Team/For You 분리, 타임라인)
+  - 참가팀 섹션 (3x2 brick offset 카드 + hover overlay + CTA 카드)
+  - 파트너스 섹션 (좌우 분할: 로고 그리드 + 자문위원 2x2)
+  - FAQ 4개 → 7개 확대 + 답변 구체화
+  - Final CTA "AI를" 공유 센터 레이아웃 (당신의/보여주세요 + 미래의/만나보세요)
+  - 모든 CTA를 APPLY_URL 상수로 통일 (외부 폼 링크)
+  - AIDA/PAS 프레임워크 기반 전체 분석 완료
+- **Next Steps**:
+  - [높음] Problem 섹션 추가 (S2와 Headline 사이 — PAS의 P 누락)
+  - [높음] Point 2 카피 + 비주얼 강화 (성과 기반 카피, SVG → 실적 카드)
+  - [높음] Final CTA 직전 긴급성 요소 추가 (잔여석, D-day 등)
+  - [중간] Social Proof 섹션 추가 (과거 참가자 후기/실적)
+  - [중간] 파트너스 자문위원 desc 노출
+  - [중간] FAQ 이모지 제거, 주차 FAQ 주소 수정 (파르나스타워 → 역삼로 180)
+  - [낮음] 공유하기 버튼 기능 구현
+  - [낮음] Nav id/텍스트 불일치 정리 (#benefits → #partners)
+- **Blockers**: None
+- **Related Files**:
+  - `app/demoday/page.tsx` — 메인 페이지 컴포넌트
+  - `app/demoday/demoday.module.css` — 전체 스타일
+  - `app/demoday/layout.tsx` — 메타데이터 레이아웃

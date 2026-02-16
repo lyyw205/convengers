@@ -1,0 +1,1235 @@
+/* ========================================
+   SHOW ME THE AI - Demo Day Landing Page
+   Dark Premium Theme (startup.asan-nanum.org tone)
+   ======================================== */
+
+/* --- Nav --- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.navInner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLogo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  font-size: 15px;
+  font-weight: 500;
+  color: #9ca3af;
+  transition: color 0.15s;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
+.navCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #22c55e;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.navCta:hover {
+  background: #16a34a;
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #9ca3af;
+}
+
+/* --- Section common --- */
+.section {
+  padding: 100px 24px;
+}
+
+.sectionInner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.sectionDesc {
+  font-size: 17px;
+  color: #9ca3af;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* --- S1: Hero --- */
+.hero {
+  background: #111827;
+  padding: 140px 24px 120px;
+  text-align: center;
+  color: #fff;
+}
+
+.heroInner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.heroDate {
+  font-size: 16px;
+  font-weight: 500;
+  color: #9ca3af;
+  margin-bottom: 24px;
+  letter-spacing: 0.04em;
+}
+
+.heroTitle {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.heroFireIcon {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.heroSubtitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #d1d5db;
+  margin-bottom: 20px;
+}
+
+.heroDesc {
+  font-size: 17px;
+  color: #9ca3af;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.heroCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  background: #22c55e;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.heroCta:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+.heroMeta {
+  margin-top: 32px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* --- S2: Innovation + Numbers --- */
+.numbers {
+  background: #0d1321;
+}
+
+.innovationBlock {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.innovationKeyword {
+  font-size: 64px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.innovationEn {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 24px;
+}
+
+.innovationDesc {
+  font-size: 18px;
+  font-weight: 400;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+
+.numberBtnRow {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.numberBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 32px;
+  background: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.numberBtn:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.numberBtnLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #9ca3af;
+  order: -1;
+}
+
+.numberBtnValue {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* --- S3: Points Section --- */
+.pointsSection {
+  /* no padding — each pointBlock handles its own */
+}
+
+.pointsHeadline {
+  font-size: 48px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.pointsHighlight {
+  color: #60a5fa;
+}
+
+.pointBlock {
+  padding: 100px 24px;
+  background: #111827;
+  text-align: center;
+}
+
+.pointBlockGray {
+  background: #0d1321;
+}
+
+.pointLabel {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #60a5fa;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pointTitle {
+  font-size: 30px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.pointDesc {
+  font-size: 16px;
+  color: #9ca3af;
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 48px;
+}
+
+.pointVisual {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Point 1: Mockup Screen */
+.mockupScreen {
+  background: #1f2937;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.mockupHeader {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px;
+  background: #111827;
+}
+
+.mockupDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #374151;
+}
+
+.mockupDot:first-child {
+  background: #ef4444;
+}
+
+.mockupDot:nth-child(2) {
+  background: #eab308;
+}
+
+.mockupDot:nth-child(3) {
+  background: #22c55e;
+}
+
+.mockupBody {
+  padding: 28px 24px;
+}
+
+.mockupTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.mockupBars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.mockupBarRow {
+  display: grid;
+  grid-template-columns: 60px 1fr 64px;
+  gap: 12px;
+  align-items: center;
+}
+
+.mockupBarLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-align: left;
+}
+
+.mockupBarTrack {
+  height: 10px;
+  background: #374151;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mockupBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.mockupBarValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #d1d5db;
+  text-align: right;
+}
+
+.mockupFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mockupBtn {
+  padding: 10px 24px;
+  background: #22c55e;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.mockupTimer {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Point 2: Growth Chart */
+.growthImage {
+  background: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 32px 24px 20px;
+}
+
+.growthSvg {
+  width: 100%;
+  height: auto;
+}
+
+.growthCaption {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Point 3: Benefit Circles */
+.benefitGroups {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}
+
+.benefitGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 32px 36px;
+  border-radius: 16px;
+}
+
+.benefitGroupBlue {
+  background: rgba(96, 165, 250, 0.06);
+}
+
+.benefitGroupGreen {
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.benefitGroupLabel {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.benefitGroupLabelBlue {
+  color: #60a5fa;
+}
+
+.benefitGroupLabelGreen {
+  color: #22c55e;
+}
+
+.benefitCircleRow {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.benefitCircle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.benefitCircleIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.benefitCircleIconBlue {
+  border: 1px solid rgba(96, 165, 250, 0.25);
+}
+
+.benefitCircleIconGreen {
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.benefitCircleIcon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.benefitCircleLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+/* Point 4: Horizontal Timeline */
+.horizTimeline {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.horizTimelineItem {
+  flex: 1;
+  min-width: 100px;
+  max-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.horizTimelineDotWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.horizTimelineDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #374151;
+  border: 3px solid #111827;
+  box-shadow: 0 0 0 2px #374151;
+  z-index: 1;
+}
+
+.horizTimelineDotHighlight {
+  background: #22c55e;
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.horizTimelineLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #374151;
+  transform: translateY(-50%);
+}
+
+.horizTimelineTime {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.horizTimelineTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d5db;
+  margin-bottom: 2px;
+}
+
+.horizTimelineTitleHighlight {
+  color: #22c55e;
+}
+
+.horizTimelineDesc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* --- S5: Teams --- */
+.teams {
+  background: #111827;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Row 2 offset — 벽돌 쌓기(brick) 느낌 */
+.teamGrid > :nth-child(n+4) {
+  transform: translateX(10%);
+}
+
+/* --- Card --- */
+.teamCard {
+  position: relative;
+  background: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  height: 180px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.teamCard:hover {
+  border-color: #22c55e;
+  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.12);
+}
+
+/* Front */
+.teamCardFront {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px 16px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.teamCard:hover .teamCardFront {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.teamLogo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #374151;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.teamName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Overlay — appears on hover */
+.teamCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: #0d1321;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 20px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.teamCard:hover .teamCardOverlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teamOverlayName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #22c55e;
+  margin-bottom: 10px;
+}
+
+.teamOverlayDesc {
+  font-size: 13px;
+  color: #d1d5db;
+  line-height: 1.7;
+}
+
+
+/* --- S6: Advisors --- */
+.advisors {
+  background: #0d1321;
+}
+
+.advisorTitle {
+  font-size: 40px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.advisorSubtitle {
+  font-size: 16px;
+  color: #9ca3af;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+.advisorGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.advisorCard {
+  background: #1f2937;
+  border-radius: 16px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.advisorName {
+  font-size: 28px;
+  font-weight: 800;
+  color: #60a5fa;
+  letter-spacing: -0.01em;
+}
+
+.advisorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 15px;
+  color: #d1d5db;
+  line-height: 1.5;
+}
+
+
+
+/* --- S6: Partners (좌우 분할) --- */
+.partnerSplit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.partnerSplitLeft,
+.partnerSplitRight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.partnerSplitLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #60a5fa;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.partnerLogoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.partnerLogoCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #1f2937;
+  border-radius: 12px;
+}
+
+.partnerLogoCardIcon {
+  font-size: 24px;
+}
+
+.partnerLogoCardName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.partnerPeopleList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.partnerPerson {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: #1f2937;
+  border-radius: 12px;
+}
+
+.partnerPersonName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.partnerPersonRole {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* --- S8: FAQ --- */
+.faq {
+  background: #111827;
+}
+
+.faqList {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.faqItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.faqItem:last-child {
+  border-bottom: none;
+}
+
+.faqItem summary {
+  padding: 20px 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.faqItem summary::-webkit-details-marker {
+  display: none;
+}
+
+.faqArrow {
+  font-size: 20px;
+  color: #6b7280;
+  transition: transform 0.2s;
+}
+
+.faqItem[open] .faqArrow {
+  transform: rotate(180deg);
+}
+
+.faqAnswer {
+  padding: 0 0 20px;
+  font-size: 15px;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+
+/* --- S9: Final CTA --- */
+.finalCta {
+  background: #0d1321;
+  color: #fff;
+  text-align: center;
+  padding: 120px 24px;
+}
+
+.finalCtaInner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* --- Final CTA: Shared Center --- */
+.ctaShared {
+  position: relative;
+  margin-bottom: 32px;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaSharedCenter {
+  font-size: 64px;
+  font-weight: 900;
+  color: #60a5fa;
+  text-align: center;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.ctaSharedRow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.ctaSharedRow:first-child {
+  top: 4px;
+  padding-left: 40px;
+}
+
+.ctaSharedRow:last-child {
+  bottom: 4px;
+  padding-left: 40px;
+}
+
+.ctaSharedSide {
+  font-size: 20px;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+
+.finalCtaDate {
+  font-size: 17px;
+  color: #9ca3af;
+  margin-bottom: 8px;
+}
+
+.finalCtaLocation {
+  font-size: 15px;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+.finalCtaBtns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.finalCtaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 48px;
+  background: #22c55e;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.finalCtaBtn:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+.finalShareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 32px;
+  background: transparent;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: 1px solid #374151;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.finalShareBtn:hover {
+  border-color: #9ca3af;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Footer --- */
+.footer {
+  background: #111827;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px 24px;
+}
+
+.footerInner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerBrand {
+  font-size: 16px;
+  font-weight: 700;
+  color: #9ca3af;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 24px;
+}
+
+.footerLink {
+  font-size: 14px;
+  color: #6b7280;
+  transition: color 0.15s;
+}
+
+.footerLink:hover {
+  color: #9ca3af;
+}
+
+/* ========================================
+   Responsive (768px 이하)
+   ======================================== */
+@media (max-width: 768px) {
+  /* Nav */
+  .navLinks {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: block;
+  }
+
+  .navLinksOpen {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #111827;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .navLinksOpen .navCta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Sections */
+  .section {
+    padding: 72px 20px;
+  }
+
+  .sectionTitle {
+    font-size: 26px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 100px 20px 80px;
+  }
+
+  .heroTitle {
+    font-size: 32px;
+  }
+
+  .heroSubtitle {
+    font-size: 18px;
+  }
+
+  .heroDesc {
+    font-size: 15px;
+  }
+
+  .heroCta {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+
+  /* Innovation + Numbers */
+  .innovationKeyword {
+    font-size: 44px;
+  }
+
+  .innovationDesc {
+    font-size: 16px;
+  }
+
+  .numberBtnRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .numberBtn {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  /* Points */
+  .pointBlock {
+    padding: 72px 20px;
+  }
+
+  .pointTitle {
+    font-size: 24px;
+  }
+
+  .mockupBarRow {
+    grid-template-columns: 48px 1fr 56px;
+    gap: 8px;
+  }
+
+  .benefitGroups {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .benefitCircleRow {
+    gap: 20px;
+  }
+
+  .benefitCircleIcon {
+    width: 64px;
+    height: 64px;
+    font-size: 26px;
+  }
+
+  .horizTimeline {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .horizTimelineItem {
+    min-width: 80px;
+  }
+
+  .horizTimelineLine {
+    display: none;
+  }
+
+  /* Teams */
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .teamGrid > :nth-child(n+4) {
+    transform: none;
+  }
+
+  .teamCard {
+    height: 160px;
+  }
+
+  /* Advisors */
+  .advisorTitle {
+    font-size: 28px;
+  }
+
+  .advisorGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .advisorCard {
+    padding: 28px 24px;
+    gap: 28px;
+  }
+
+  .advisorName {
+    font-size: 22px;
+  }
+
+  /* Final CTA */
+  .finalCta {
+    padding: 80px 20px;
+  }
+
+  .ctaSharedSide {
+    font-size: 16px;
+  }
+
+  .ctaSharedCenter {
+    font-size: 44px;
+  }
+
+
+  .finalCtaBtns {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .finalCtaBtn {
+    padding: 16px 36px;
+    font-size: 18px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .finalShareBtn {
+    padding: 16px 36px;
+    font-size: 18px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Footer */
+  .footerInner {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .footerLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
