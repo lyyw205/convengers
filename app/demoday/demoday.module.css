@@ -112,6 +112,15 @@
   margin: 0 auto;
 }
 
+.heroProblem {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ef4444;
+  margin-bottom: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
 .heroDate {
   font-size: 16px;
   font-weight: 500;
@@ -140,11 +149,21 @@
   margin-bottom: 20px;
 }
 
+.heroSubtitle strong {
+  color: #22c55e;
+  font-weight: 700;
+}
+
 .heroDesc {
   font-size: 17px;
   color: #9ca3af;
   line-height: 1.6;
   margin-bottom: 40px;
+}
+
+.heroDesc strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 .heroCta {
@@ -242,6 +261,110 @@
   font-size: 32px;
   font-weight: 800;
   color: #fff;
+}
+
+/* --- S2.5: Problem Section --- */
+.problemSection {
+  padding: 100px 24px;
+  background: #111827;
+}
+
+.problemTitle {
+  font-size: 40px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: -0.02em;
+}
+
+.problemHighlight {
+  color: #60a5fa;
+}
+
+.problemGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto 48px;
+}
+
+.problemCard {
+  background: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 36px 32px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.problemCard:hover {
+  border-color: #22c55e;
+  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.15);
+}
+
+.problemEmoji {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.problemCard h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.problemList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.problemList li {
+  font-size: 15px;
+  color: #9ca3af;
+  line-height: 1.6;
+  padding-left: 24px;
+  position: relative;
+}
+
+.problemList li::before {
+  content: "❌";
+  position: absolute;
+  left: 0;
+  color: #ef4444;
+  font-size: 14px;
+}
+
+.problemCta {
+  text-align: center;
+  padding: 32px;
+  background: #0d1321;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.problemCtaText {
+  font-size: 20px;
+  color: #d1d5db;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.problemCtaText strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.problemCtaText span {
+  color: #22c55e;
+  font-weight: 700;
 }
 
 /* --- S3: Points Section --- */
@@ -1075,6 +1198,10 @@
     padding: 100px 20px 80px;
   }
 
+  .heroProblem {
+    font-size: 16px;
+  }
+
   .heroTitle {
     font-size: 32px;
   }
@@ -1111,6 +1238,46 @@
     width: 100%;
     max-width: 320px;
     justify-content: center;
+  }
+
+  /* Problem Section */
+  .problemSection {
+    padding: 72px 20px;
+  }
+
+  .problemTitle {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
+  .problemGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .problemCard {
+    padding: 28px 24px;
+  }
+
+  .problemEmoji {
+    font-size: 40px;
+  }
+
+  .problemCard h3 {
+    font-size: 18px;
+  }
+
+  .problemList li {
+    font-size: 14px;
+  }
+
+  .problemCta {
+    padding: 24px 20px;
+  }
+
+  .problemCtaText {
+    font-size: 17px;
   }
 
   /* Points */

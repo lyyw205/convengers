@@ -148,15 +148,16 @@ export default function DemodayPage() {
       {/* S1: Hero */}
       <section id="hero" className={styles.hero}>
         <div className={styles.heroInner}>
-          <p className={styles.heroDate}>2026. 02. 27. 목요일 19:00 | 서울 강남</p>
           <h1 className={styles.heroTitle}>
             SHOW ME THE AI
           </h1>
           <p className={styles.heroSubtitle}>
-            10팀의 AI 스타트업, 120분의 생존 발표, 100억 규모 투자 연계
+            10팀의 AI 스타트업, 120분의 생존 발표,<br />
+            <strong>100억 규모 투자 연계</strong>
           </p>
           <p className={styles.heroDesc}>
-            AI 시장을 선도할 다음 AI 유니콘을 미리 만나보세요.
+            관객 100명이 투자자가 되어 <strong>실시간으로 우승팀을 결정</strong>합니다.<br />
+            지난 시즌 우승 2팀, 3개월 내 실제 투자 유치 성공.
           </p>
           <a href={APPLY_URL} target="_blank" rel="noopener noreferrer" className={styles.heroCta}>
             참여 신청하기 →
@@ -190,6 +191,43 @@ export default function DemodayPage() {
               <span className={styles.numberBtnLabel}>참가 팀 (선발)</span>
               <span className={styles.numberBtnValue}>10팀</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* S2.5: Problem Section */}
+      <section className={styles.problemSection}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.problemTitle}>
+            이런 고민, <span className={styles.problemHighlight}>해보신 적 있나요?</span>
+          </h2>
+
+          <div className={styles.problemGrid}>
+            <div className={styles.problemCard}>
+              <span className={styles.problemEmoji}>🤔</span>
+              <h3>For AI 스타트업</h3>
+              <ul className={styles.problemList}>
+                <li>"AI 프로덕트를 만들었는데, 투자자에게 어떻게 피칭해야 할지 막막해요"</li>
+                <li>"초기 스타트업이라 VC 미팅 기회 자체가 없어요"</li>
+                <li>"우리 제품이 시장에서 통할지 검증하고 싶어요"</li>
+              </ul>
+            </div>
+
+            <div className={styles.problemCard}>
+              <span className={styles.problemEmoji}>👀</span>
+              <h3>For 투자자·업계 종사자</h3>
+              <ul className={styles.problemList}>
+                <li>"AI 트렌드를 따라가기 벅차요. 누가 진짜 게임체인저인지 어떻게 알죠?"</li>
+                <li>"네트워킹 행사는 많은데, 실제 투자로 이어지는 자리는 거의 없어요"</li>
+                <li>"AI 시장의 다음 주자를 미리 발굴하고 싶어요"</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className={styles.problemCta}>
+            <p className={styles.problemCtaText}>
+              <strong>SHOW ME THE AI</strong>는 이 모든 고민을 <span>120분 안에</span> 해결합니다.
+            </p>
           </div>
         </div>
       </section>
